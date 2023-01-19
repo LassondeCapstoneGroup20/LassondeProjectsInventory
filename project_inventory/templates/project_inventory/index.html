@@ -1,0 +1,26 @@
+<h1>Project List</h1>
+
+{% if project_list %}
+    <table>
+        <tr>
+            <th>Project Name</th>
+            <th>Team</th>
+            <th>Supervisor</th>
+            <th>Date Proposed</th>
+            <th>Complete?</th>
+            <th>Industry Project?</th>
+        </tr>
+    {% for proj in project_list %}
+        <tr>
+            <td>{{proj.name}}</td>
+            <td>{{proj.students}}</td>
+            <td>{{proj.supervisor}}</td>
+            <td>{{proj.date_proposed}}</td>
+            <td>{{proj.is_complete}}</td>
+            <td>{{proj.is_industry_proj}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No projects available.</p>
+{% endif %}
