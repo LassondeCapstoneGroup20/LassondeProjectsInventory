@@ -12,27 +12,36 @@ table, th, td {
 {% if project_list %}
     <table>
         <tr>
+            <th>Project ID</th>
             <th>Project Name</th>
             <th>Team</th>
             <th>Supervisor</th>
             <th>Date Proposed</th>
             <th>Complete?</th>
+            <th>Date Complete</th>
             <th>Industry Project?</th>
+            <th>Notes</th>
         </tr>
     {% for proj in project_list %}
         <tr>
+            <td>{{proj.id}}</td>
             <td>{{proj.name}}</td>
             <td>{{proj.students}}</td>
             <td>{{proj.supervisor}}</td>
             <td>{{proj.date_proposed}}</td>
             <td>{{proj.is_complete}}</td>
+            <td>{{proj.date_complete}}</td>
             <td>{{proj.is_industry_proj}}</td>
+            <td>{{proj.notes}}
         </tr>
     {% endfor %}
     </table>
 {% else %}
     <p>No projects available.</p>
 {% endif %}
+
+
+<button onclick="location.href = '/projects/add'">New Project</button>
 
 </body>
 </html>

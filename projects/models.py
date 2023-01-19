@@ -7,13 +7,13 @@ class AccessLog(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length = 120)
-    students = models.JSONField(blank = True)#should this instead use a student model?
-    supervisor = models.JSONField(blank = True)
+    students = models.CharField(max_length = 120, blank = True)#should this instead use a student model?
+    supervisor = models.CharField(max_length = 60, blank = True)
     date_proposed = models.DateField(auto_now_add = True)
     is_complete = models.BooleanField(default = False)
-    date_complete = models.DateField(blank = True)
+    date_complete = models.DateField(null = True)
     is_industry_proj = models.BooleanField(default = False)
-    industry_partners = models.JSONField(blank = True)
+    industry_partners = models.CharField(max_length = 60, blank = True)
     notes = models.TextField(blank = True)
     
 

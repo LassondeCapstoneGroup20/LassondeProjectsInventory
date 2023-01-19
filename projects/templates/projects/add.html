@@ -1,0 +1,20 @@
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+    <h1>Add a new project</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+
+        <button type="submit">Save</button>
+    </form>
+
+</body>
+</html>
