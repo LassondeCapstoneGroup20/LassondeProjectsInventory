@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from .models import AccessLog, Project
+
 from .forms import ProjectForm
+from .models import AccessLog, Project
+
 
 def index(request):
     project_list = Project.objects.order_by('date_proposed')[:20]
@@ -21,8 +23,13 @@ def add_project(request):
     form = ProjectForm()
     return render(request, 'projects/add.html', {'form': form})
 
-def delete_project(request):
-    return 
+def delete_project(request, id):
+    proj = get_object_or_404(Project, id = id)
+    if request.method == "POST":
+        proj.delete()
+        return redirect('projects:success')
+
+    return render(request, 'projects/delete.html', {'proj': proj})
 
 def success(request):
     return HttpResponseRedirect('/projects')
