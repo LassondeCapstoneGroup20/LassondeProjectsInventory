@@ -9,11 +9,11 @@ class ProjectForm(forms.ModelForm):
         fields = (
             "name",
             "field",
+            "type",
             "students",
             "supervisor",
-            "is_complete",
+            "status",
             "date_complete",
-            "is_industry_proj",
             "industry_partners",
             "cost",
             "notes"
