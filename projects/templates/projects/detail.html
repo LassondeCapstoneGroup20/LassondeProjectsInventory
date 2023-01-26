@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+</html>
+<body>
+  <h1>Project Details</h1>
+
+  <table>
+    <tr>
+      <th>Project ID</th>
+      <th>Project Name</th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Team Members</th>
+      <th>Supervisor</th>
+      <th>Date Proposed</th>
+      <th>Status</th>
+      <th>Date Complete</th>
+      <th>Industry Partner</th>
+      <th>Cost</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td>{{proj.id}}</td>
+      <td>{{proj.name}}</td>
+      <td>{{proj.get_field_display}}</td>
+      <td>{{proj.get_type_display}}</td>
+      <td>{{proj.students}}</td>
+      <td>{{proj.supervisor}}</td>
+      <td>{{proj.date_proposed}}</td>
+      <td>{{proj.get_status_display}}</td>
+      <td>{{proj.date_complete}}</td>
+      <td>{{proj.industry_partners}}</td>
+      <td>{{proj.cost}}</td>
+      <td>{{proj.notes}}</td>
+    </tr>
+  </table>
+</body>
+<a href="{% url 'projects:list' %}">Back</a>
