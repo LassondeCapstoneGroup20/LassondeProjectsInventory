@@ -30,13 +30,12 @@ def add_project(request):
     form = ProjectForm()
     return render(request, 'projects/add.html', {'form': form})
 
-def delete_project(request, id):
-    proj = get_object_or_404(Project, id = id)
-    if request.method == "POST":
+def delete_project(request, proj_id):
+    proj = get_object_or_404(Project, id = proj_id)
+    if request.method == "DELETE":
         proj.delete()
-        return redirect('projects:success')
-
-    return render(request, 'projects/delete.html', {'proj': proj})
+    return redirect('projects:success')
+    #return render(request, 'projects/delete.html', {'proj': proj})
 
 def success(request):
     return HttpResponseRedirect('/projects/list/')

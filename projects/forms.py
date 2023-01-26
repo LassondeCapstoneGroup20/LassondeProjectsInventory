@@ -12,6 +12,7 @@ class ProjectForm(forms.ModelForm):
             "type",
             "students",
             "supervisor",
+            "date_proposed",
             "status",
             "date_complete",
             "industry_partners",

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 
 # Create your models here.
@@ -36,7 +37,7 @@ class Project(models.Model):
     type = models.CharField(max_length = 30, choices=TYPES)
     students = models.CharField(max_length = 120, blank = True, default=None)#should this instead use a student model?
     supervisor = models.CharField(max_length = 60, blank = True, default=None)
-    date_proposed = models.DateField(auto_now_add = True)
+    date_proposed = models.DateField(default=date.today)
     status = models.CharField(max_length=30, choices=STATUS, default=STATUS[0][0])
     date_complete = models.DateField(default=None, blank = True, null = True)
     industry_partners = models.CharField(max_length = 60, blank = True, default=None)

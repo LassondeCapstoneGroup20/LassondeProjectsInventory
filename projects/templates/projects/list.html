@@ -30,8 +30,16 @@
         <td>{{proj.get_type_display}}</td>
         <td>{{proj.date_proposed}}</td>
         <td>{{proj.get_status_display}}</td>
-        <td>{{proj.date_complete}}</td>
+        <td>{% firstof proj.date_complete 'Not Completed'%}</td>
         <td><a href="{% url 'projects:detail' proj.id %}">Details</a></td>
+        {% comment "Delete Button WIP" %}
+        <td>
+          <form method="delete">
+            <input type="hidden" value="{{proj.id}}" name="delete_proj">
+            <input type="Submit">Delete</button>
+          </form>
+        </td>
+        {%endcomment%}
       </tr>
 
       {% endfor %}
@@ -41,11 +49,5 @@
     {% endif %}
 
     <a href="{% url 'projects:add' %}">New Project</a>
-
-    <form action="{% url 'projects:delete'%}" method="post">
-      {% csrf_token %}
-      <input type="text" id="proj_id" name="proj_id" /><br />
-      <input type="submit" value="Delete Project" />
-    </form>
   </body>
 </html>
