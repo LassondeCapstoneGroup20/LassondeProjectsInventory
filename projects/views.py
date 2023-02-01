@@ -2,8 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from .forms import ProjectForm
-from .models import AccessLog, Project
+from .forms import DisciplineForm, GoalForm, ProjectForm
+from .models import EngDiscipline, Project, UNGoals
 
 
 def index(request):
@@ -20,13 +20,8 @@ def detail(request, proj_id):
 
 def add_project(request):
     #return render(request, 'projects/add.html')
-    if request.method == "POST":
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            print("Success")
-            form.save()
-            return redirect('projects:success')       
-    
+    if request.method == "POST":   
+        return save_form(ProjectForm(request.POST), 'projects:success')
     form = ProjectForm()
     return render(request, 'projects/add.html', {'form': form})
 
@@ -39,5 +34,30 @@ def delete_project(request, proj_id):
 
 def success(request):
     return HttpResponseRedirect('/projects/list/')
+
+def settings(request):
+    eng_disciplines = EngDiscipline.objects.order_by('id')[:15]
+    un_goals = UNGoals.objects.order_by('id')[:18]
+    context = {'disciplines': eng_disciplines, 'goals':un_goals}
+    return render(request, 'projects/settings.html', context)
+
+def add_discipline(request):
+    if request.method == "POST":
+        return save_form(DisciplineForm(request.POST), 'projects:settings')
+    form = DisciplineForm()
+    return render(request, 'projects/add_settings.html', {'form': form})
+
+def add_goal(request):
+    #return HttpResponse('Add Goal')
+    if request.method == "POST":
+        return save_form(GoalForm(request.POST), 'projects:settings')
+    form = GoalForm()
+    return render(request, 'projects/add_settings.html', {'form': form})
+
+def save_form(form, redir):
+    if form.is_valid():
+        print("Success")
+        form.save()
+        return redirect(redir)
 
 # Create your views here.

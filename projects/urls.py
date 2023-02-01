@@ -10,4 +10,7 @@ urlpatterns = [
     path('add/', views.add_project, name='add'),
     path('success/', views.success, name='success'),
     path('delete/<int:proj_id>/', views.delete_project, name='delete'),
+    path('settings/', views.settings, name = 'settings'),
+    path('settings/add_discipline/',views.add_discipline, name = 'add_discipline'),
+    path('setting/add_goal', views.add_goal, name='add_goal'),
 ]
