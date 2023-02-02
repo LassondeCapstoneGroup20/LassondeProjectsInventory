@@ -18,6 +18,7 @@
         <th>Project Name</th>
         <th>Discipline</th>
         <th>Type</th>
+        <th>Supervisor</th>
         <th>Date Proposed</th>
         <th>Status</th>
         <th>Date Complete</th>
@@ -28,18 +29,18 @@
         <td>{{proj.name}}</td>
         <td>{{proj.get_disciplines|linebreaks}}</td>
         <td>{{proj.get_type_display}}</td>
+        <td>{{proj.supervisor}}</td>
         <td>{{proj.date_proposed}}</td>
         <td>{{proj.get_status_display}}</td>
         <td>{% firstof proj.date_complete 'Not Completed'%}</td>
         <td><a href="{% url 'projects:detail' proj.id %}">Details</a></td>
-        {% comment "Delete Button WIP" %}
+        <td><a href="{% url 'projects:edit' proj.id %}">Edit</a></td>
         <td>
-          <form method="delete">
-            <input type="hidden" value="{{proj.id}}" name="delete_proj">
-            <input type="Submit">Delete</button>
+          <form method="post" action="{% url 'projects:delete' proj.id %}">
+            {% csrf_token %}
+            <input type="Submit" value="Delete" />
           </form>
         </td>
-        {%endcomment%}
       </tr>
 
       {% endfor %}

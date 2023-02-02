@@ -1,19 +1,9 @@
+from datetime import date
+
 from django import forms
 
 from .models import EngDiscipline, Project, UNGoals
 
-
-class MCDisciplineForm(forms.ModelMultipleChoiceField):
-    def label_from_instance(self, discipline):
-        return discipline.discipline
-
-class MCGoalForm(forms.ModelMultipleChoiceField):
-    class Meta:
-        labels = {
-            'un_goals': "UN Sustainable Development Goals",
-        }
-    def label_from_instance(self, goal):
-        return goal.title
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -32,15 +22,21 @@ class ProjectForm(forms.ModelForm):
             "un_goals",
             "notes"
             )
+    date_proposed = forms.DateField(widget = forms.SelectDateWidget, initial = date.today)
+    #date_complete = forms.DateField(widget = forms.SelectDateWidget, initial = date.today)
 
+    #Todo: Write a validator to check an option is selected
     discipline = forms.ModelMultipleChoiceField(
         queryset = EngDiscipline.objects.all(),
-        widget = forms.CheckboxSelectMultiple
+        widget = forms.CheckboxSelectMultiple,
+        error_messages = {'required': 'Please select a discipline'},
+        required = True,
         )
     un_goals = forms.ModelMultipleChoiceField(
         queryset = UNGoals.objects.all(),
         widget = forms.CheckboxSelectMultiple,
         label = 'UN Sustainable Development Goals',
+        required = False,
     )
     
 

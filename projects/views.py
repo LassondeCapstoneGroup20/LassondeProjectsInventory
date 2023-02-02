@@ -5,7 +5,7 @@ from django.urls import reverse
 from .forms import DisciplineForm, GoalForm, ProjectForm
 from .models import EngDiscipline, Project, UNGoals
 
-
+'''Main View Methods'''
 def index(request):
     return render(request, 'projects/index.html')
 
@@ -21,16 +21,26 @@ def detail(request, proj_id):
 def add_project(request):
     #return render(request, 'projects/add.html')
     if request.method == "POST":   
-        return save_form(ProjectForm(request.POST), 'projects:success')
+        return __save_form(ProjectForm(request.POST), 'projects:success')
     form = ProjectForm()
     return render(request, 'projects/add.html', {'form': form})
 
 def delete_project(request, proj_id):
     proj = get_object_or_404(Project, id = proj_id)
-    if request.method == "DELETE":
+    if request.method == "POST":
         proj.delete()
     return redirect('projects:success')
     #return render(request, 'projects/delete.html', {'proj': proj})
+
+#Todo: Might be able to combine with add_project, just check if an instance is sent
+#search for editing form creates new instance
+def edit_project(request, proj_id):
+    proj = get_object_or_404(Project, id = proj_id)
+    if request.method == "POST":
+        return __save_form(ProjectForm(request.POST, instance = proj), 'projects:success')
+    
+    form = ProjectForm(instance = proj)
+    return render(request, 'projects/add.html', {'form': form})
 
 def success(request):
     return HttpResponseRedirect('/projects/list/')
@@ -43,18 +53,20 @@ def settings(request):
 
 def add_discipline(request):
     if request.method == "POST":
-        return save_form(DisciplineForm(request.POST), 'projects:settings')
+        return __save_form(DisciplineForm(request.POST), 'projects:settings')
     form = DisciplineForm()
     return render(request, 'projects/add_settings.html', {'form': form})
 
 def add_goal(request):
     #return HttpResponse('Add Goal')
     if request.method == "POST":
-        return save_form(GoalForm(request.POST), 'projects:settings')
+        return __save_form(GoalForm(request.POST), 'projects:settings')
     form = GoalForm()
     return render(request, 'projects/add_settings.html', {'form': form})
 
-def save_form(form, redir):
+
+'''Helper Methods'''
+def __save_form(form, redir):
     if form.is_valid():
         print("Success")
         form.save()
