@@ -23,13 +23,12 @@ class ProjectForm(forms.ModelForm):
             "notes"
             )
     date_proposed = forms.DateField(widget = forms.SelectDateWidget, initial = date.today)
-    #date_complete = forms.DateField(widget = forms.SelectDateWidget, initial = date.today)
+    date_complete = forms.DateField(widget = forms.SelectDateWidget, initial = None)
 
-    #Todo: Write a validator to check an option is selected
     discipline = forms.ModelMultipleChoiceField(
         queryset = EngDiscipline.objects.all(),
         widget = forms.CheckboxSelectMultiple,
-        error_messages = {'required': 'Please select a discipline'},
+        error_messages = {'required': 'Please select at least 1 discipline'},
         required = True,
         )
     un_goals = forms.ModelMultipleChoiceField(

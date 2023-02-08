@@ -20,9 +20,13 @@ def detail(request, proj_id):
 
 def add_project(request):
     #return render(request, 'projects/add.html')
-    if request.method == "POST":   
-        return __save_form(ProjectForm(request.POST), 'projects:success')
-    form = ProjectForm()
+    #if request.method == "POST":   
+    #    return __save_form(ProjectForm(request.POST), 'projects:success')
+    form = ProjectForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect('projects:success')
     return render(request, 'projects/add.html', {'form': form})
 
 def delete_project(request, proj_id):
@@ -36,10 +40,12 @@ def delete_project(request, proj_id):
 #search for editing form creates new instance
 def edit_project(request, proj_id):
     proj = get_object_or_404(Project, id = proj_id)
+    form = ProjectForm(request.POST or None, instance = proj)
     if request.method == "POST":
-        return __save_form(ProjectForm(request.POST, instance = proj), 'projects:success')
-    
-    form = ProjectForm(instance = proj)
+        #return __save_form(ProjectForm(request.POST, instance = proj), 'projects:success')
+        if form.is_valid():
+            form.save()
+            return redirect('projects:success')
     return render(request, 'projects/add.html', {'form': form})
 
 def success(request):

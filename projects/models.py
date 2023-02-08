@@ -1,6 +1,8 @@
 from datetime import date
 
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.signals import m2m_changed
 
 
 # Create your models here.
@@ -64,3 +66,11 @@ class Project(models.Model):
 
     def get_goals(self):
         return "\n".join([str(g.id) +": "+ g.title for g in self.un_goals.all()])
+
+    '''Validate the discipline field always has at least 1 discipline selected'''
+#def discipline_changed(sender, **kwargs):
+#    instance = kwargs['instance']
+#    if len(instance.discipline.all()) < 1 :
+#        raise ValidationError(f'Please select at least one discipline')
+    
+#m2m_changed.connect(discipline_changed, sender=Project.discipline.through)
