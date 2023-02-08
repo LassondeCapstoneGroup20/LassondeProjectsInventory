@@ -48,15 +48,38 @@ class ProjectsListViewTests(TestCase):
         proj_field = 'Computer'
         proj_type = Project.TYPES[0][0]
         
-        proj = create_project(proj_name = proj_name, proj_discipline = proj_field, proj_type = proj_type)
+        proj = create_project(proj_name = proj_name, proj_type = proj_type)
         #ed = EngDiscipline.objects.create(discipline = 'Test Discipline')
         #proj.discipline.add(ed)
         
         response = self.client.get(reverse('projects:list'))
         self.assertEqual(response.status_code, 200)
-        #pdb.set_trace()
         self.assertQuerysetEqual(response.context['project_list'], [proj])
         
-        returned_proj = response.context['project_list'].first()
-        self.assertEqual(returned_proj.name, proj_name)
-        self.assertEqual(returned_proj.type, proj_type)
+
+    def test_proj_fields_correct(self):
+        name = 'Test Project Name'
+        field = 'Test Field'
+        proj_type = Project.TYPES[0][0]
+        supervisor = 'Test Person'
+        proposed_date = '1970-01-01'
+        status = Project.STATUS[0][0]
+        complete_date = None
+
+        proj = create_project(proj_name = name, proj_type = proj_type, supervisor = supervisor, date_proposed = proposed_date, status = status, date_complete = complete_date)
+        discip = EngDiscipline.objects.create(discipline = field)
+        proj.discipline.add(discip)
+
+        response = self.client.get(reverse('projects:list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['project_list'], [proj])
+
+        resp_proj = response.context['project_list'].first()
+        #self.assertEqual(resp_proj.id, 1)
+        self.assertEqual(resp_proj.name, name)
+        self.assertEqual(resp_proj.type, proj_type)
+        #pdb.set_trace()
+        self.assertEqual(resp_proj.get_disciplines(), field)
+        self.assertEqual(resp_proj.supervisor, supervisor)
+        self.assertEqual(resp_proj.status, status)
+        self.assertEqual(resp_proj.date_complete, complete_date)
