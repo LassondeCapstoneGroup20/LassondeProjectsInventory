@@ -21,6 +21,7 @@ def loginUser(request):
             return redirect('homepage')
     return render(request, 'homepage/login_register.html')
 
+@login_required(login_url=loginUser)
 def logoutUser(request):
     logout(request)
     return redirect('login')
@@ -62,6 +63,7 @@ def delete_project(request, proj_id):
 
 #Todo: Might be able to combine with add_project, just check if an instance is sent
 #search for editing form creates new instance
+@login_required(login_url=loginUser)
 def edit_project(request, proj_id):
     proj = get_object_or_404(Project, id = proj_id)
     form = ProjectForm(request.POST or None, instance = proj)
@@ -75,18 +77,21 @@ def edit_project(request, proj_id):
 def success(request):
     return HttpResponseRedirect('/projects/list/')
 
+@login_required(login_url=loginUser)
 def settings(request):
     eng_disciplines = EngDiscipline.objects.order_by('id')[:15]
     un_goals = UNGoals.objects.order_by('id')[:18]
     context = {'disciplines': eng_disciplines, 'goals':un_goals}
     return render(request, 'projects/settings.html', context)
 
+@login_required(login_url=loginUser)
 def add_discipline(request):
     if request.method == "POST":
         return __save_form(DisciplineForm(request.POST), 'projects:settings')
     form = DisciplineForm()
     return render(request, 'projects/add_settings.html', {'form': form})
 
+@login_required(login_url=loginUser)
 def add_goal(request):
     #return HttpResponse('Add Goal')
     if request.method == "POST":
