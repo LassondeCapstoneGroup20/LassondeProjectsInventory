@@ -1,5 +1,9 @@
 <html>
   <head>
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
     <style>
       table,
       th,
@@ -26,7 +30,7 @@
     {% else %}
     <p>No disciplines available.</p>
     {% endif %}
-    <a href="{% url 'projects:add_discipline' %}">Add Discipline</a>
+    <a href="{% url 'projects:add_discipline' %}" class="btn btn-dark btn-block btn-sm m-1">Add Discipline</a>
 
     <h1>UN Sustainable Development Goals</h1>
     {% if goals %}
@@ -49,8 +53,7 @@
     {% else %}
     <p>No goals available.</p>
     {% endif %}
-    <p><a href="{% url 'projects:add_goal' %}">Add Goal</a></p>
-
-    <p><a href="{% url 'projects:list' %}">Back to Projects</a></p>
+    <a href="{% url 'projects:add_goal' %}" class="btn btn-dark btn-block btn-sm m-1">Add Goal</a>
+    <a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back to Projects</a>
   </body>
 </html>

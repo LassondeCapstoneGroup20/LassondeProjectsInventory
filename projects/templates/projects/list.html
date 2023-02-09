@@ -18,7 +18,7 @@
       <div class="row my-5">
         <div class="col-md-12">
           <h1>Project List</h1>
-          <a href="{% url 'projects:settings' %}">Project Field Settings</a>
+          <a href="{% url 'projects:settings' %}" class="btn btn-dark btn-block btn-sm m-1">Project Field Settings</a>
           {% if project_list %}
           <table class = "table">
             <thead>
@@ -61,7 +61,8 @@
           <p>No projects available.</p>
           {% endif %}
 
-          <a href="{% url 'projects:add' %}">New Project</a>
+          <a href="{% url 'projects:add' %}" class="btn btn-dark btn-block btn-sm m-1">New Project</a>
+          <a href="{% url 'homepage' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
         </div>
       </div>
     </div>
