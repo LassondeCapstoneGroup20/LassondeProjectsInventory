@@ -1,54 +1,70 @@
 <html>
   <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
     <style>
       table,
       th,
       td {
-        border: 1px solid black;
+        border: 1px solid grey;
       }
     </style>
   </head>
   <body>
-    <h1>Project List</h1>
-    <a href="{% url 'projects:settings' %}">Project Field Settings</a>
-    {% if project_list %}
-    <table>
-      <tr>
-        <th>Project ID</th>
-        <th>Project Name</th>
-        <th>Discipline</th>
-        <th>Type</th>
-        <th>Supervisor</th>
-        <th>Date Proposed</th>
-        <th>Status</th>
-        <th>Date Complete</th>
-      </tr>
-      {% for proj in project_list %}
-      <tr>
-        <td>{{proj.id}}</td>
-        <td>{{proj.name}}</td>
-        <td>{{proj.get_disciplines|linebreaks}}</td>
-        <td>{{proj.get_type_display}}</td>
-        <td>{{proj.supervisor}}</td>
-        <td>{{proj.date_proposed}}</td>
-        <td>{{proj.get_status_display}}</td>
-        <td>{% firstof proj.date_complete 'Not Completed'%}</td>
-        <td><a href="{% url 'projects:detail' proj.id %}">Details</a></td>
-        <td><a href="{% url 'projects:edit' proj.id %}">Edit</a></td>
-        <td>
-          <form method="post" action="{% url 'projects:delete' proj.id %}">
-            {% csrf_token %}
-            <input type="Submit" value="Delete" />
-          </form>
-        </td>
-      </tr>
+    {% block content %}
+    <div class="container">
+      <div class="row my-5">
+        <div class="col-md-12">
+          <h1>Project List</h1>
+          <a href="{% url 'projects:settings' %}">Project Field Settings</a>
+          {% if project_list %}
+          <table class = "table">
+            <thead>
+              <tr>
+                <th>Project ID</th>
+                <th>Project Name</th>
+                <th>Discipline</th>
+                <th>Type</th>
+                <th>Supervisor</th>
+                <th>Date Proposed</th>
+                <th>Status</th>
+                <th>Date Complete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for proj in project_list %}
+              <tr>
+                <td>{{proj.id}}</td>
+                <td>{{proj.name}}</td>
+                <td>{{proj.get_disciplines|linebreaks}}</td>
+                <td>{{proj.get_type_display}}</td>
+                <td>{{proj.supervisor}}</td>
+                <td>{{proj.date_proposed}}</td>
+                <td>{{proj.get_status_display}}</td>
+                <td>{% firstof proj.date_complete 'Not Completed'%}</td>
+                <td><a href="{% url 'projects:detail' proj.id %}">Details</a></td>
+                <td><a href="{% url 'projects:edit' proj.id %}">Edit</a></td>
+                <td>
+                  <form method="post" action="{% url 'projects:delete' proj.id %}">
+                    {% csrf_token %}
+                    <input type="Submit" value="Delete" class="btn btn-danger"/>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            
+          </table>
+          {% else %}
+          <p>No projects available.</p>
+          {% endif %}
 
-      {% endfor %}
-    </table>
-    {% else %}
-    <p>No projects available.</p>
-    {% endif %}
-
-    <a href="{% url 'projects:add' %}">New Project</a>
+          <a href="{% url 'projects:add' %}">New Project</a>
+        </div>
+      </div>
+    </div>
+    {% endblock content %}
   </body>
 </html>
