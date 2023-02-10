@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+</head>
+<body>
+    <h1>Industry Partner List</h1>
+
+    {% if industry_partners_list %}
+    <table>
+      <tr>
+        <th>IP ID</th>
+        <th>IP Name</th>
+        <th>Address</th>
+        <th>Website</th>
+        <th>Phone #</th>
+        <th>Type</th>
+        <th>Date Joined</th>
+        <th>Status</th>
+      </tr>
+      {% for partner in industry_partners_list %}
+      <tr>
+        <td>{{partner.id}}</td>
+        <td>{{partner.name}}</td>
+        <td>{{partner.address}}</td>
+        <td>{{partner.website}}</td>
+        <td>{{partner.phone_number}}</td>
+        <td>{{partner.type}}</td>
+          <td>{{partner.date_joined}}</td>
+          <td>{{partner.status}}</td>
+        {% comment "Delete Button WIP" %}
+        <td>
+          <form method="delete">
+            <input type="hidden" value="{{proj.id}}" name="delete_proj">
+            <input type="Submit">Delete</button>
+          </form>
+        </td>
+        {%endcomment%}
+      </tr>
+
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No Industry Partners Added.</p>
+    {% endif %}
+
+    <a href="{% url 'contacts:add' %}">New Industry Partner</a>
+</body>
+</html>
