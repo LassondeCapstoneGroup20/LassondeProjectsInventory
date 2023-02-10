@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 
 from .forms import IndustryPartnersForm
@@ -17,9 +17,15 @@ def add_industry_partner(request):
     return render(request, 'contacts/add.html', {'form': form})
 
 def list(request):
-    partners_list = IndustryPartners.objects.order_by('name')[:20]
+    partners_list = IndustryPartners.objects.order_by('name')
     context = {'industry_partners_list': partners_list}
     return render(request, 'contacts/list.html', context)
+
+def delete_partner(request, partner_id):
+    instance = get_object_or_404(IndustryPartners, id=partner_id)
+    if request.method == "POST":
+        instance.delete()
+    return redirect('contacts:success')
 
 def success(request):
     return HttpResponseRedirect('/contacts/list/')

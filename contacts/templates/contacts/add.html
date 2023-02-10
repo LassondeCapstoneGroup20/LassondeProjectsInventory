@@ -1,5 +1,9 @@
 <html>
   <head>
+    {% load bootstrap5 %}
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <style>
       table,
       th,
@@ -8,14 +12,22 @@
       }
     </style>
   </head>
+
   <body>
-    <h1>Add a new Industry Partner</h1>
+    <div class="container">
+        <div class="row my-5">
+          <div class="col-md-12">
+            <h1>Add a new Industry Partner</h1>
 
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
+            <form method="post">
+              {% csrf_token %}
+              {% bootstrap_form form %}
 
-      <button type="submit">Save</button>
-    </form>
-    <a href="{% url 'contacts:list' %}">Back</a>
+              <button type="submit">Save</button>
+            </form>
+            <a href="{% url 'contacts:list' %}">Back</a>
+          </div>
+        </div>
+    </div>
   </body>
 </html>

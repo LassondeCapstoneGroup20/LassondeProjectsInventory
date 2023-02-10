@@ -12,6 +12,7 @@ class IndustryPartnersForm(forms.ModelForm):
             "website",
             "phone_number",
             "type",
+            "email",
             "date_joined",
             "status",
             "notes"
