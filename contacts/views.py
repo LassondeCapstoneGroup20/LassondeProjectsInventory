@@ -5,7 +5,7 @@ from .forms import IndustryPartnersForm
 from .models import IndustryPartners
 
 # Create your views here.
-def add_industry_parnter(request):
+def add_industry_partner(request):
     # return render(request, 'projects/add.html')
     form = IndustryPartnersForm(request.POST or None)
     if request.method == "POST":
@@ -19,7 +19,6 @@ def add_industry_parnter(request):
 def list(request):
     partners_list = IndustryPartners.objects.order_by('name')[:20]
     context = {'industry_partners_list': partners_list}
-    print(partners_list[0].name)
     return render(request, 'contacts/list.html', context)
 
 def success(request):

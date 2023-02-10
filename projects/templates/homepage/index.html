@@ -13,7 +13,8 @@
     <h1>Welcome to the Lassonde Capstone Inventory Database</h1>
     {%if request.user.is_authenticated %}
         <p> Welcome to Lassonde inventory <b>{{request.user}}</b></p>
-        <a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">View Projecsts</button>
+        <a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">View Projects</button>
+        <a href="{% url 'contacts:list' %}" class="btn btn-dark btn-block btn-sm m-1">View Industry Partners</button>
         <a href="{% url 'logout' %}" class="btn btn-dark btn-block btn-sm m-1">Logout</button>
     {% else %}
         <a href="{% url 'login' %}" class="btn btn-dark btn-block btn-sm m-1">Login</button>
