@@ -46,14 +46,14 @@
         <td>{{g.id}}</td>
         <td>{{g.title}}</td>
         <td>{{g.description}}</td>
-        <td>{{g.link}}</td>
+        <td><a href={{g.link}}>Link</a></td>
       </tr>
       {% endfor %}
     </table>
     {% else %}
     <p>No goals available.</p>
     {% endif %}
-    <a href="{% url 'projects:add_goal' %}" class="btn btn-dark btn-block btn-sm m-1">Add Goal</a>
-    <a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back to Projects</a>
+    <p><a href="{% url 'projects:add_goal' %}" class="btn btn-dark btn-block btn-sm m-1">Add Goal</a></p>
+    <p><a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back to Projects</a></p>
   </body>
 </html>

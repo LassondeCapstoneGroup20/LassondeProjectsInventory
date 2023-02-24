@@ -23,7 +23,7 @@ class ProjectForm(forms.ModelForm):
             "notes"
             )
     date_proposed = forms.DateField(widget = forms.SelectDateWidget, initial = date.today)
-    date_complete = forms.DateField(widget = forms.SelectDateWidget, initial = None)
+    date_complete = forms.DateField(widget = forms.SelectDateWidget, required = False)
 
     discipline = forms.ModelMultipleChoiceField(
         queryset = EngDiscipline.objects.all(),
