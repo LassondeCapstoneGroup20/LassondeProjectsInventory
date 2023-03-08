@@ -42,41 +42,26 @@ def detail(request, proj_id):
     return render(request, 'projects/detail.html', {'proj': proj})
 
 @login_required(login_url=loginUser)
-def add_project(request):
-    #return render(request, 'projects/add.html')
-    #if request.method == "POST":   
-    #    return __save_form(ProjectForm(request.POST), 'projects:success')
-    form = ProjectForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            form.save()
-            return redirect('projects:success')
-    return render(request, 'projects/add.html', {'form': form})
-
-@login_required(login_url=loginUser)
 def delete_project(request, proj_id):
     proj = get_object_or_404(Project, id = proj_id)
     if request.method == "POST":
         proj.delete()
-    return redirect('projects:success')
+    return HttpResponseRedirect('/projects/list/')
     #return render(request, 'projects/delete.html', {'proj': proj})
 
-#Todo: Might be able to combine with add_project, just check if an instance is sent
-#search for editing form creates new instance
 @login_required(login_url=loginUser)
-def edit_project(request, proj_id):
-    proj = get_object_or_404(Project, id = proj_id)
-    form = ProjectForm(request.POST or None, instance = proj)
+def add_edit_project(request, proj_id = None):
+    if proj_id:
+        proj = get_object_or_404(Project, id = proj_id)
+        form = ProjectForm(request.POST or None, instance = proj)
+    else:
+        form = ProjectForm(request.POST or None)
     if request.method == "POST":
-        #return __save_form(ProjectForm(request.POST, instance = proj), 'projects:success')
         if form.is_valid():
             form.save()
-            return redirect('projects:success')
+            return HttpResponseRedirect('/projects/list/')
     return render(request, 'projects/add.html', {'form': form})
-
-def success(request):
-    return HttpResponseRedirect('/projects/list/')
-
+    
 @login_required(login_url=loginUser)
 def settings(request):
     eng_disciplines = EngDiscipline.objects.order_by('id')[:15]

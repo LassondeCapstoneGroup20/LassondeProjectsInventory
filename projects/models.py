@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import m2m_changed
 
+from contacts.models import IndustryPartners
 
 # Create your models here.
 class EngDiscipline(models.Model):
@@ -56,7 +57,7 @@ class Project(models.Model):
     date_proposed = models.DateField(default=date.today)
     status = models.CharField(max_length=30, choices=STATUS, default=STATUS[0][0])
     date_complete = models.DateField(default=None, blank = True, null = True)
-    industry_partners = models.CharField(max_length = 60, blank = True, default=None)
+    industry_partners = models.ForeignKey('contacts.IndustryPartners', null = True, default=None, on_delete=models.SET_NULL)
     cost = models.IntegerField(blank = True, null = True, default = 0)
     un_goals = models.ManyToManyField(UNGoals, default = None, blank = True)
     notes = models.TextField(blank = True, default=None)
@@ -66,6 +67,9 @@ class Project(models.Model):
 
     def get_goals(self):
         return "\n".join([str(g.id) +": "+ g.title for g in self.un_goals.all()])
+
+    def get_partner_name(self):
+        return self.industry_partners.name
 
     '''Validate the discipline field always has at least 1 discipline selected'''
 #def discipline_changed(sender, **kwargs):
