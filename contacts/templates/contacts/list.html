@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap5 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        padding: 2px;
+        text-align: center;
+      }
+
+      html {
+        display: table;
+        margin: auto;
+      }
+
+      body {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .del {
+        display: none
+      }
+
+
+    </style>
+</head>
+
+<body style="margin: auto">
+    <h1>Industry Partner List</h1>
+
+    {% if industry_partners_list %}
+    <table>
+      <tr>
+        <th>IP ID</th>
+        <th>IP Name</th>
+        <th>Address</th>
+        <th>Website</th>
+        <th>Phone #</th>
+          <th>Email</th>
+        <th>Type</th>
+        <th>Date Joined</th>
+        <th>Status</th>
+      </tr>
+      {% for partner in industry_partners_list %}
+      <tr style="">
+        <td>{{partner.id}}</td>
+        <td>{{partner.name}}</td>
+        <td>{{partner.address}}</td>
+        <td>{{partner.website}}</td>
+        <td>{{partner.phone_number}}</td>
+        <td>{{partner.email}}</td>
+          <td>{{partner.type}}</td>
+          <td>{{partner.date_joined}}</td>
+          <td>{{partner.status}}</td>
+        <td>
+          <form method="post" action="{% url 'contacts:delete' partner.id %}">
+            {% csrf_token %}
+            <input type="Submit" value="Delete" class="btn btn-danger"/>
+          </form>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No Industry Partners Added.</p>
+    {% endif %}
+
+    <a href="{% url 'contacts:add' %}" class="btn btn-dark btn-block btn-sm m-1">New Industry Partner</a>
+    <a href="{% url 'homepage' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+</body>
+</html>

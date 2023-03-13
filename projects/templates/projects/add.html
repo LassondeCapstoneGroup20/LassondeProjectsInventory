@@ -1,5 +1,9 @@
 <html>
   <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
     <style>
       table,
       th,
@@ -9,13 +13,37 @@
     </style>
   </head>
   <body>
-    <h1>Add a new project</h1>
+    {% block content %}
+      <div class="container">
+        <div class="row my-5">
+          <div class="col-md-12">
 
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
+            {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+            {% endif %}
+            
+            <h1>Add a new project</h1>
 
-      <button type="submit">Save</button>
-    </form>
-    <a href="{% url 'projects:list' %}">Back</a>
+            <form method="post">
+              {% csrf_token %} 
+              {% bootstrap_form form %}
+              <button type="submit" class="btn btn-primary btn-block btn-sm m-1">Save</button>
+            </form>
+            <a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+          </div>
+        </div>
+      </div>
+    {% endblock content %}
   </body>
 </html>
