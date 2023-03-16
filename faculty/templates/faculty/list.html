@@ -1,0 +1,66 @@
+<html>
+  <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid grey;
+      }
+    </style>
+  </head>
+  <body>
+    {% block content %}
+    <div class="container">
+      <div class="row my-5">
+        <div class="col-md-12">
+          <h1>Faculty List</h1>
+          {% if faculty_list %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Fields of Interest</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for fac in faculty_list %}
+              <tr>
+                <td>{{fac.id}}</td>
+                <td>{{fac.name}}</td>
+                <td>{{fac.role}}</td>
+                <td>{{fac.get_department_display}}</td>
+                <td>{{fac.fields_of_interest}}</td>
+                <td>{{fac.notes}}</td>
+                {%comment%}
+                <td><a href="{% url 'faculty:edit' fac.id %}">Edit</a></td>
+                {%endcomment%}
+                <td>
+                  <form method="post" action="{% url 'faculty:delete' fac.id %}">
+                    {% csrf_token %}
+                    <input type="Submit" value="Delete" class="btn btn-danger"/>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p>No faculty available</p>
+          {% endif %}
+
+          <a href="{% url 'faculty:add' %}" class="btn btn-dark btn-block btn-sm m-1">New Faculty</a>
+          <a href="{% url 'homepage' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+        </div>
+      </div>
+    </div>
+    {% endblock content %}
+  </body>
+</html>

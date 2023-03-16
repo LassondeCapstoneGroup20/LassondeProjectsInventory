@@ -2,14 +2,14 @@ from django.db import models
 
 # Create your models here.
 class Faculty(models.Model):
-    TYPES = [
+    ROLES = [
         ('PROF', 'Professor'),
         ('TA', 'Teaching Assistant'),
         ('OTHER', 'Other Staff'),
     ]
 
     DEPTS = [
-        ('OTHR', 'Other')
+        ('OTHR', 'Other'),
         ('AMPD', 'School of the Arts, Media, Performance & Design'),
         ('ED', 'Faculty of Education'),
         ('FEUC', 'Faculty of Environmental & Urban Change'),
@@ -28,7 +28,7 @@ class Faculty(models.Model):
     ]
 
     name = models.CharField(max_length = 120)
-    type = models.CharField(max_length = 5, choices= TYPES, default = TYPES[0][0])
+    role = models.CharField(max_length = 5, choices= ROLES, default = ROLES[0][0])
     department = models.CharField(max_length = 4, choices = DEPTS, default = DEPTS[0][0])
     fields_of_interest = models.CharField(max_length = 120, blank = True)
     notes = models.TextField(blank = True, default = None)
