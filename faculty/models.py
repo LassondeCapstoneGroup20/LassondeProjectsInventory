@@ -31,4 +31,8 @@ class Faculty(models.Model):
     role = models.CharField(max_length = 5, choices= ROLES, default = ROLES[0][0])
     department = models.CharField(max_length = 4, choices = DEPTS, default = DEPTS[0][0])
     fields_of_interest = models.CharField(max_length = 120, blank = True)
+    email = models.CharField(max_length = 40, blank = True)
     notes = models.TextField(blank = True, default = None)
+
+    def __str__(self):
+        return ("%s (%s)" %(self.name, self.role))

@@ -33,14 +33,14 @@
             {% endfor %}
             {% endif %}
             
-            <h1>Add Faculty</h1>
+            <h1>Add a Capstone Year</h1>
 
             <form method="post">
               {% csrf_token %} 
               {% bootstrap_form form %}
               <button type="submit" class="btn btn-primary btn-block btn-sm m-1">Save</button>
             </form>
-            <a href="{% url 'faculty:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+            <a href="{% url 'capstones:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
           </div>
         </div>
       </div>
