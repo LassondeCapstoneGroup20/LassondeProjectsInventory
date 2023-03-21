@@ -7,7 +7,7 @@ from faculty.models import Faculty
 # Create your models here.
 
 class Capstone(models.Model):
-    starting_year = models.IntegerField(default=date.today().year)
+    starting_year = models.IntegerField(default=date.today().year, primary_key = True)
     teaching_staff = models.ManyToManyField(Faculty, default = None, blank = True, related_name='staff_list')
     teaching_assistants = models.ManyToManyField(Faculty, default = None, blank = True, related_name='ta_list')
     capstone_day = models.DateField(default=None, blank = True, null = True)

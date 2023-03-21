@@ -24,8 +24,10 @@ class CapstoneForm(forms.ModelForm):
   teaching_staff = forms.ModelMultipleChoiceField(
       queryset = Faculty.objects.filter(role = "PROF"),
       widget = forms.CheckboxSelectMultiple,
+      required = False,
   )
   teaching_assistants = forms.ModelMultipleChoiceField(
       queryset = Faculty.objects.filter(role = "TA"),
       widget = forms.CheckboxSelectMultiple,
+      required = False,
   )
