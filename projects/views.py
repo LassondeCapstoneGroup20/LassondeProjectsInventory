@@ -7,24 +7,7 @@ from .models import EngDiscipline, Project, UNGoals
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
-def homepage(request):
-    return render(request, 'homepage/index.html')
-
-def loginUser(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('homepage')
-    return render(request, 'homepage/login_register.html')
-
-@login_required(login_url=loginUser)
-def logoutUser(request):
-    logout(request)
-    return redirect('login')
+from authentication.views import login_required, loginUser
 
 @login_required(login_url=loginUser)
 def project_index_page(request):

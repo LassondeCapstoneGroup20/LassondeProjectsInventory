@@ -3,8 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from .forms import IndustryPartnersForm
 from .models import IndustryPartners
-from projects.views import login_required, loginUser
-
+from authentication.views import login_required, loginUser
 # Create your views here.
 
 @login_required(login_url=loginUser)
