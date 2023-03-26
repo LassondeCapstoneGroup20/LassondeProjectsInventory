@@ -36,6 +36,9 @@ class IndustryPartners(models.Model):
     status = models.CharField(max_length=30, choices=STATUS, default=STATUS[0][0])
     notes = models.TextField(blank=True, default=None)
 
+    def __str__(self):
+        return ("%s" %(self.name))
+
 
 class Industry_Partners_Projects(models.Model):
     name = models.CharField(max_length=120)
