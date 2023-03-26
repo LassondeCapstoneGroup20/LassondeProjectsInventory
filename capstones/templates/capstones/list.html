@@ -38,14 +38,12 @@
                 <td>{{c.starting_year}}</td>
                 <td>{% firstof c.get_staff_list|linebreaks 'None' %}</td>
                 <td>{% firstof c.get_ta_list|linebreaks 'None' %}</td>
-                <td>{{c.capstone_day}}</td>
+                <td>{% firstof c.capstone_day 'No date set' %}</td>
                 <td>{{c.capstone_day_location}}</td>
                 <td>{{c.capstone_day_judges}}</td>
                 <td>{{c.teaching_notes}}</td>
                 <td>{{c.other_notes}}</td>
-                {%comment%}
-                <td><a href="{% url 'faculty:edit' fac.id %}">Edit</a></td>
-                {%endcomment%}
+                <td><a href="{% url 'capstones:edit' c.starting_year %}">Edit</a></td>
                 <td>
                   <form method="post" action="{% url 'capstones:delete' c.starting_year %}">
                     {% csrf_token %}

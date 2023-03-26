@@ -16,7 +16,7 @@ def add_edit_capstone(request, year = None):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/capstones/list/')
+            return HttpResponseRedirect('/capstones')
     return render(request, 'capstones/add.html', {'form': form})
 
 @login_required(login_url=loginUser)
@@ -30,4 +30,10 @@ def delete_capstone(request, year):
     cap = get_object_or_404(Capstone, starting_year=year)
     if request.method == "POST":
         cap.delete()
-    return HttpResponseRedirect('/capstones/list/')
+    return HttpResponseRedirect('/capstones')
+
+#Todo: create the detail.html template
+@login_required(login_url=loginUser)
+def details(request, year):
+    cap = get_object_or_404(Capstone, starting_year=year)
+    return render(request, 'capstones/detail.html', {'capstone': cap})

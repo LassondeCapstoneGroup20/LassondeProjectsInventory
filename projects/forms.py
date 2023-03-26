@@ -13,6 +13,7 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = (
             "name",
+            "capstone_year",
             "discipline",
             "type",
             "students",
@@ -23,6 +24,7 @@ class ProjectForm(forms.ModelForm):
             "industry_partners",
             "cost",
             "un_goals",
+            "tags",
             "notes"
             )
     date_proposed = forms.DateField(widget=DateInput, initial = date.today())

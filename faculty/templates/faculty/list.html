@@ -39,9 +39,7 @@
                 <td>{{fac.get_department_display}}</td>
                 <td>{{fac.fields_of_interest}}</td>
                 <td>{{fac.notes}}</td>
-                {%comment%}
                 <td><a href="{% url 'faculty:edit' fac.id %}">Edit</a></td>
-                {%endcomment%}
                 <td>
                   <form method="post" action="{% url 'faculty:delete' fac.id %}">
                     {% csrf_token %}

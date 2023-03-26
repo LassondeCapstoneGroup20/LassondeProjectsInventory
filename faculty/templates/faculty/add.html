@@ -33,7 +33,11 @@
             {% endfor %}
             {% endif %}
             
-            <h1>Add Faculty</h1>
+            {% if form.is_bound %}
+              <h1>Edit Faculty</h1>
+            {% else %}
+              <h1>Add Faculty</h1>
+            {% endif %}
 
             <form method="post">
               {% csrf_token %} 

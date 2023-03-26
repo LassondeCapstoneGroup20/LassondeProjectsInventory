@@ -50,6 +50,7 @@ class Project(models.Model):
         ('EXT', 'Completed / Extendable'),
     ]
     name = models.CharField(max_length = 120)
+    capstone_year = models.IntegerField(default = date.today().year)
     discipline = models.ManyToManyField(EngDiscipline)
     type = models.CharField(max_length = 6, choices=TYPES)
     source = models.CharField(max_length = 30, null = True)
@@ -61,6 +62,7 @@ class Project(models.Model):
     industry_partners = models.ForeignKey('contacts.IndustryPartners', null = True, default=None, on_delete=models.SET_NULL)
     cost = models.IntegerField(blank = True, null = True, default = 0)
     un_goals = models.ManyToManyField(UNGoals, default = None, blank = True)
+    tags = models.CharField(max_length = 120, blank = True)
     notes = models.TextField(blank = True, default=None)
     
     def get_disciplines(self):

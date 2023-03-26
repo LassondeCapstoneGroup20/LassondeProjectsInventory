@@ -16,7 +16,7 @@ def add_edit_faculty(request, faculty_id = None):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/faculty/list/')
+            return HttpResponseRedirect('/faculty')
     return render(request, 'faculty/add.html', {'form': form})
 
 @login_required(login_url=loginUser)
@@ -30,4 +30,10 @@ def delete_faculty(request, faculty_id):
     fac = get_object_or_404(Faculty, id=faculty_id)
     if request.method == "POST":
         fac.delete()
-    return HttpResponseRedirect('/faculty/list/')
+    return HttpResponseRedirect('/faculty')
+
+#Todo: create the detail.html template
+@login_required(login_url=loginUser)
+def details(request, faculty_id):
+    fac = get_object_or_404(Faculty, id=faculty_id)
+    return render(request, 'faculty/detail.html', {'faculty': fac})
