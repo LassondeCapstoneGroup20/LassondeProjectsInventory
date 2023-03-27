@@ -32,5 +32,18 @@ def delete_partner(request, partner_id):
         instance.delete()
     return redirect('contacts:success')
 
+def edit_partner(request, partner_id):
+    form = 'form'
+    if partner_id:
+        partner = get_object_or_404(IndustryPartners, id=partner_id)
+        form = IndustryPartnersForm(request.POST or None, instance=partner)
+    else:
+        form = IndustryPartnersForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect('contacts:success')
+    return render(request, 'contacts/add.html', {'form': form})
+
 def success(request):
     return HttpResponseRedirect('/contacts/list/')
