@@ -1,7 +1,6 @@
 *.log
 *.pot
 *.pyc
-lassondeDB/settings.py
 .idea/*
 contacts/migrations/0001_initial.py
 projects/migrations/0001_initial.py
