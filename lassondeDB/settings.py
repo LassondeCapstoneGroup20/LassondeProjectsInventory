@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'contacts',
     'faculty',
     'capstones',
+    'authentication',
 ]
 
 MIDDLEWARE = [
