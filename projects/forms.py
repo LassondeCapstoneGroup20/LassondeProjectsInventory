@@ -3,7 +3,7 @@ from datetime import date
 from django import forms
 
 from .models import EngDiscipline, Project, UNGoals
-
+from faculty.models import Faculty
     
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -13,6 +13,7 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = (
             "name",
+            "capstone_year",
             "discipline",
             "type",
             "students",
@@ -23,11 +24,12 @@ class ProjectForm(forms.ModelForm):
             "industry_partners",
             "cost",
             "un_goals",
+            "tags",
             "notes"
             )
     date_proposed = forms.DateField(widget=DateInput, initial = date.today())
     date_complete = forms.DateField(widget=DateInput, required = False)
-
+    supervisor = forms.ModelChoiceField(queryset = Faculty.objects.filter(role='PROF'))
     discipline = forms.ModelMultipleChoiceField(
         queryset = EngDiscipline.objects.all(),
         widget = forms.CheckboxSelectMultiple,

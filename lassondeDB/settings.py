@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'bootstrap5',
     'projects',
     'contacts',
-    'authentication'
+    'faculty',
+    'capstones',
+    'authentication',
 ]
 
 MIDDLEWARE = [

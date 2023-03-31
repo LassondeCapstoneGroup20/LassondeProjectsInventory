@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from contacts.models import IndustryPartners
+from faculty.models import Faculty
 
 # Create your models here.
 class EngDiscipline(models.Model):
@@ -42,23 +43,26 @@ class Project(models.Model):
     ]
 
     STATUS = [
+        ('NOTRDY', 'Missing Project Details'),
         ('PROP', 'Proposed / Unstarted'),
         ('START', 'Started / In Progress'),
         ('COMPL', 'Completed'),
         ('EXT', 'Completed / Extendable'),
     ]
     name = models.CharField(max_length = 120)
+    capstone_year = models.IntegerField(default = date.today().year)
     discipline = models.ManyToManyField(EngDiscipline)
     type = models.CharField(max_length = 6, choices=TYPES)
     source = models.CharField(max_length = 30, null = True)
     students = models.CharField(max_length = 120, blank = True, default=None)
-    supervisor = models.CharField(max_length = 60, blank = True, default=None)
+    supervisor = models.ForeignKey('faculty.Faculty', null=True, default = None, on_delete=models.SET_NULL)
     date_proposed = models.DateField(default=date.today)
     status = models.CharField(max_length=30, choices=STATUS, default=STATUS[0][0])
     date_complete = models.DateField(default=None, blank = True, null = True)
     industry_partners = models.ForeignKey('contacts.IndustryPartners', null = True, default=None, on_delete=models.SET_NULL)
     cost = models.IntegerField(blank = True, null = True, default = 0)
     un_goals = models.ManyToManyField(UNGoals, default = None, blank = True)
+    tags = models.CharField(max_length = 120, blank = True)
     notes = models.TextField(blank = True, default=None)
     
     def get_disciplines(self):
