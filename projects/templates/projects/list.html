@@ -48,6 +48,10 @@
         <div class="col-md-12">
           <h1>Project List</h1>
           <a href="{% url 'projects:settings' %}" class="btn btn-dark btn-block btn-sm m-1">Project Field Settings</a>
+          <form method="GET" action="{% url 'projects:list'%}">
+            {% bootstrap_form filter_form %}
+            <input type="submit" value = "Submit" class="btn btn-primary" />
+          </form>
           {% if project_list %}
           <table class = "table">
             <thead>

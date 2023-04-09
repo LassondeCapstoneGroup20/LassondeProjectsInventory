@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'faculty',
     'capstones',
     'authentication',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

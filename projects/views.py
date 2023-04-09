@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .forms import DisciplineForm, GoalForm, ProjectForm
+from .filters import ProjectFilter
 from .models import EngDiscipline, Project, UNGoals
 
 from django.contrib.auth import authenticate, login, logout
@@ -15,8 +16,8 @@ def project_index_page(request):
 
 @login_required(login_url=loginUser)
 def list(request):
-    project_list = Project.objects.order_by('date_proposed')[:20]
-    context = {'project_list': project_list}
+    project_filter = ProjectFilter(request.GET, queryset = Project.objects.all())
+    context = {'filter_form': project_filter.form, 'project_list': project_filter.qs[:20]}
     return render(request, 'projects/list.html', context)
 
 @login_required(login_url=loginUser)
