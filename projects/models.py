@@ -55,7 +55,7 @@ class Project(models.Model):
     type = models.CharField(max_length = 6, choices=TYPES)
     source = models.CharField(max_length = 30, null = True)
     students = models.CharField(max_length = 120, blank = True, default=None)
-    supervisor = models.ForeignKey('faculty.Faculty', null=True, default = None, on_delete=models.SET_NULL)
+    supervisor = models.ManyToManyField('faculty.Faculty', blank = True, default = None)
     date_proposed = models.DateField(default=date.today)
     status = models.CharField(max_length=30, choices=STATUS, default=STATUS[0][0])
     date_complete = models.DateField(default=None, blank = True, null = True)
@@ -73,3 +73,6 @@ class Project(models.Model):
 
     def get_partner_name(self):
         return self.industry_partners.name
+
+    def get_supervisors(self):
+        return "\n".join([s.__str__() for s in self.supervisor.all()])

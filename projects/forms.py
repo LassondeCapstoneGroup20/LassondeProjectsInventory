@@ -4,6 +4,7 @@ from django import forms
 
 from .models import EngDiscipline, Project, UNGoals
 from faculty.models import Faculty
+from contacts.models import IndustryPartners
     
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -29,19 +30,25 @@ class ProjectForm(forms.ModelForm):
             )
     date_proposed = forms.DateField(widget=DateInput, initial = date.today())
     date_complete = forms.DateField(widget=DateInput, required = False)
-    supervisor = forms.ModelChoiceField(queryset = Faculty.objects.filter(role='PROF'))
+    supervisor = forms.ModelMultipleChoiceField(
+        queryset = Faculty.objects.filter(role = 'PROF'), 
+        widget = forms.SelectMultiple,
+        label = 'Supervisor (hold control to select/unselect multiple)',
+        required = False,
+    )
     discipline = forms.ModelMultipleChoiceField(
         queryset = EngDiscipline.objects.all(),
         widget = forms.CheckboxSelectMultiple,
         error_messages = {'required': 'Please select at least 1 discipline'},
         required = True,
-        )
+    )
     un_goals = forms.ModelMultipleChoiceField(
         queryset = UNGoals.objects.all(),
         widget = forms.CheckboxSelectMultiple,
         label = 'UN Sustainable Development Goals',
         required = False,
     )
+    industry_partners = forms.ModelChoiceField(queryset = IndustryPartners.objects.all(), required = False)
 
 class DisciplineForm(forms.ModelForm):
     class Meta:
