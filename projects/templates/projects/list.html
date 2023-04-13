@@ -48,10 +48,48 @@
         <div class="col-md-12">
           <h1>Project List</h1>
           <a href="{% url 'projects:settings' %}" class="btn btn-dark btn-block btn-sm m-1">Project Field Settings</a>
-          <form method="GET" action="{% url 'projects:list'%}">
-            {% bootstrap_form filter_form %}
-            <input type="submit" value = "Submit" class="btn btn-primary" />
-          </form>
+          <p></p>
+          {#<div class="col-md-4">#}
+            <form method="GET" action="{% url 'projects:list'%}">
+              {% csrf_token %} 
+              {#{% bootstrap_form filter_form %}#}
+              <div class="fieldWrapper">
+                {% for field in filter_form %}
+                    {{ field.errors }}
+                    {#{% bootstrap_field field %}#}
+                    {#{% if field.help_text %}#}
+                    {#  <p class="help">{{ field.help_text|safe }}</p> #}
+                    {#{% endif %}#}
+                {% endfor %}
+                <h5>Filter By</h5>
+                <div class = "form-group">
+                  
+                  <label>ID:</label> {{filter_form.id}}
+                  <label>Name:</label> {{filter_form.name}}
+                  
+                  <label>Cost(min-max):</label> {{filter_form.cost}}
+
+                </div>
+                <div class = "form-group">
+                  <label>Capstone Year:</label>{{filter_form.capstone_year}}
+
+                  <label>Type:</label>{{filter_form.type}}
+                  
+                  <label>Status:</label>{{filter_form.status}}
+                  
+                  <label>Tags:</label>{{filter_form.tags}}
+                </div>
+                <div class="form-group">
+                  <label class="align-top">Discipline:</label>{{filter_form.discipline}}
+                  <label class="align-top">Supervisor:</label>{{filter_form.supervisor}}
+                  <label class="align-top">SDG:</label>{{filter_form.un_goals}}
+                  <input type="submit" value = "Apply" class="btn btn-primary align-text-bottom"/>
+                </div>
+              </div>
+
+            </form>
+          {#</div>#}
+          
           {% if project_list %}
           <table class = "table">
             <thead>

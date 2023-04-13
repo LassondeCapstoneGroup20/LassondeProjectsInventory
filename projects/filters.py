@@ -3,16 +3,16 @@ from .models import Project
 
 class ProjectFilter(django_filters.FilterSet):
     cost = django_filters.RangeFilter()
+    name = django_filters.CharFilter(lookup_expr='icontains')
+    tags = django_filters.CharFilter(lookup_expr='icontains')
     class Meta:
         model = Project
         fields = {
             'id':['exact'],
-            'name':['icontains'],
             'discipline':['exact'],
             'type':['exact'],
             'capstone_year':['exact'],
             'supervisor':['exact'],
             'status':['exact'],
             'un_goals':['exact'],
-            'tags':['icontains'],
             }
