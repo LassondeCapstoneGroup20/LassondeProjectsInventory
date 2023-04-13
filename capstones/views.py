@@ -5,6 +5,8 @@ from .forms import CapstoneForm
 from .models import Capstone
 from projects.views import login_required, loginUser
 
+from projects.models import Project
+
 # Create your views here.
 @login_required(login_url=loginUser)
 def add_edit_capstone(request, year = None):
@@ -32,8 +34,8 @@ def delete_capstone(request, year):
         cap.delete()
     return HttpResponseRedirect('/capstones')
 
-#Todo: create the detail.html template
 @login_required(login_url=loginUser)
 def details(request, year):
+    projects = Project.objects.filter(capstone_year=year)
     cap = get_object_or_404(Capstone, starting_year=year)
-    return render(request, 'capstones/detail.html', {'capstone': cap})
+    return render(request, 'capstones/detail.html', {'capstone': cap, 'projects':projects})
