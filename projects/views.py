@@ -17,7 +17,7 @@ def project_index_page(request):
 @login_required(login_url=loginUser)
 def list(request):
     project_filter = ProjectFilter(request.GET, queryset = Project.objects.all())
-    context = {'filter_form': project_filter.form, 'project_list': project_filter.qs[:20]}
+    context = {'filter_form': project_filter.form, 'project_list': project_filter.qs}
     return render(request, 'projects/list.html', context)
 
 @login_required(login_url=loginUser)

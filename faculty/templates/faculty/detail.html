@@ -1,0 +1,70 @@
+<html>
+  <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid grey;
+      }
+    </style>
+  </head>
+  <body>
+    {% block content %}
+    <div class="container">
+      <div class="row my-5">
+        <div class="col-md-12">
+          <h1>Faculty Details</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Department</th>
+                  <th>Fields of Interest</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{faculty.id}}</td>
+                  <td>{{faculty.name}}</td>
+                  <td>{{faculty.role}}</td>
+                  <td>{{faculty.get_department_display}}</td>
+                  <td>{{faculty.fields_of_interest}}</td>
+                  <td>{{faculty.notes}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <h2>Projects supervised</h2>
+            {% if projects %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Project ID</th>
+                    <th>Project Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for proj in projects %}
+                  <tr>
+                    <td>{{proj.id}}</td>
+                    <td>{{proj.name}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p>No projects available</p>
+            {% endif%}
+            <a href="{% url 'faculty:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+        </div>
+      </div>
+    </div>
+    {% endblock content %}
+  </body>
+</html>
