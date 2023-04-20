@@ -95,6 +95,7 @@
             <thead>
               <tr>
                 <th>Project ID</th>
+                <th>Year</th>
                 <th>Project Name</th>
                 <th>Discipline</th>
                 <th>Type</th>
@@ -109,6 +110,7 @@
               {% for proj in project_list %}
               <tr>
                 <td>{{proj.id}}</td>
+                <td>{{proj.capstone_year}}</td>
                 <td>{{proj.name}}</td>
                 <td>{{proj.get_disciplines|linebreaks}}</td>
                 <td>{{proj.get_type_display}}</td>

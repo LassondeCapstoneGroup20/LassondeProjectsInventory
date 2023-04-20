@@ -31,8 +31,8 @@ class ProjectForm(forms.ModelForm):
     date_proposed = forms.DateField(widget=DateInput, initial = date.today())
     date_complete = forms.DateField(widget=DateInput, required = False)
     supervisor = forms.ModelMultipleChoiceField(
-        queryset = Faculty.objects.filter(role = 'PROF'), 
-        widget = forms.SelectMultiple,
+        queryset = Faculty.objects.filter(role = 'PROF').order_by('department', 'name'), 
+        widget = forms.SelectMultiple(attrs={'class':'form-control', 'style':'height: 200px'}),
         label = 'Supervisor (hold control to select/unselect multiple)',
         required = False,
     )

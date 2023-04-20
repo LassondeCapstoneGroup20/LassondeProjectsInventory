@@ -1,8 +1,9 @@
 import django_filters
 from .models import Project
+#attrs={'style':'width: 50px'}
 
 class ProjectFilter(django_filters.FilterSet):
-    cost = django_filters.RangeFilter()
+    cost = django_filters.NumericRangeFilter()
     name = django_filters.CharFilter(lookup_expr='icontains')
     tags = django_filters.CharFilter(lookup_expr='icontains')
     class Meta:
