@@ -2,7 +2,8 @@ from datetime import date
 
 from django import forms
 
-from .models import Capstone, Faculty
+from .models import Capstone, Faculty, Award
+from projects.models import Project
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -31,3 +32,18 @@ class CapstoneForm(forms.ModelForm):
       widget = forms.CheckboxSelectMultiple,
       required = False,
   )
+
+class AwardForm(forms.ModelForm):
+    class Meta:
+        model = Award
+        fields=(
+            'capstone',
+            'title',
+            'project',
+            'details',
+        )
+    project = forms.ModelChoiceField(
+        queryset = Project.objects.all().order_by('capstone_year'),
+        widget = forms.Select,
+        required = True,
+    )
