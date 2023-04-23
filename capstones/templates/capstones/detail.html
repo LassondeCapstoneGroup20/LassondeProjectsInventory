@@ -65,7 +65,31 @@
           {% else %}
             <p>No projects available</p>
           {% endif%}
-          <a href="{% url 'capstones:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+          <h2>Awards given out this year</h2>
+          {% if awards %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Award Name</th>
+                  <th>Project Name</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for aw in awards %}
+                <tr>
+                  <td>{{aw.title}}</td>
+                  <td>{{aw.project}}</td>
+                  <td>{{aw.details}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No awards given</p>
+          {% endif%}
+          <a href="{% url 'capstones:add_award' capstone.starting_year %}" class="btn btn-dark btn-block btn-sm m-1">Add Award</a>
+          <p><a href="{% url 'capstones:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a></p>
         </div>
       </div>
     </div>

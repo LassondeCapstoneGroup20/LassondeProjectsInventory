@@ -76,3 +76,6 @@ class Project(models.Model):
 
     def get_supervisors(self):
         return "\n".join([s.__str__() for s in self.supervisor.all()])
+    
+    def __str__(self):
+        return ("Proj %i: %s (%s)" %(self.id, self.name, self.capstone_year))

@@ -42,8 +42,3 @@ class AwardForm(forms.ModelForm):
             'project',
             'details',
         )
-    project = forms.ModelChoiceField(
-        queryset = Project.objects.all().order_by('capstone_year'),
-        widget = forms.Select,
-        required = True,
-    )
