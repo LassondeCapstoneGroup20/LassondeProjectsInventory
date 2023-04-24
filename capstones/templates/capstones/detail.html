@@ -78,7 +78,7 @@
               <tbody>
                 {% for aw in awards %}
                 <tr>
-                  <td>{{aw.title}}</td>
+                  <td><a href="{% url 'capstones:edit_award' capstone.starting_year aw.id %}">{{aw.title}}</a></td>
                   <td>{{aw.project}}</td>
                   <td>{{aw.details}}</td>
                 </tr>

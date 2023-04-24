@@ -33,7 +33,12 @@
             {% endfor %}
             {% endif %}
             
-            <h1>Add a new project</h1>
+            {% if form.instance.pk is None %}
+              <h1>Add a new project</h1>
+            {% else %}
+              <h1>Edit project</h1>
+            {% endif %}
+            
 
             <form method="post">
               {% csrf_token %} 

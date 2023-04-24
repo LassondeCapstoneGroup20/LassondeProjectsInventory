@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 from django import forms
 
@@ -44,7 +45,7 @@ def details(request, year):
     return render(request, 'capstones/detail.html', {'capstone': cap, 'projects':projects, 'awards':awards})
 
 @login_required(login_url=loginUser)
-def add_award(request, year):
+def add_award(request, year, id=None):
     AwardForm.base_fields['project'] = forms.ModelChoiceField(
         queryset = Project.objects.filter(capstone_year = year),
         widget = forms.Select,
@@ -53,9 +54,22 @@ def add_award(request, year):
     AwardForm.base_fields['capstone']=forms.IntegerField(
         initial=year
     )
-    form = AwardForm(request.POST or None)
+    if id:
+        award = get_object_or_404(Award, id=id)
+        form = AwardForm(request.POST or None, instance = award)
+    else:
+        form = AwardForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/capstones')
+            url = reverse('capstones:details', kwargs={'year': year})
+            return HttpResponseRedirect(url)
     return render(request, 'capstones/add_award.html', {'form': form})
+
+@login_required(login_url=loginUser)
+def delete_award(request, year, id):
+    award = get_object_or_404(Award, id=id)
+    if request.method == "POST":
+        award.delete()
+        url = reverse('capstones:details', kwargs={'year': year})
+        return HttpResponseRedirect(url)
