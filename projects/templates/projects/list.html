@@ -117,7 +117,7 @@
                 <td>{% firstof proj.get_supervisors|linebreaks 'None Assigned' %}</td>
                 <td>{{proj.date_proposed}}</td>
                 <td>{{proj.get_status_display}}</td>
-                <td>{% firstof proj.date_complete 'Not Completed'%}</td>
+                <td>{% firstof proj.date_complete '-'%}</td>
                 <td><a href="{% url 'projects:detail' proj.id %}">Details</a></td>
                 <td><a href="{% url 'projects:edit' proj.id %}">Edit</a></td>
                 <td>
@@ -136,6 +136,7 @@
           {% endif %}
 
           <a href="{% url 'projects:add' %}" class="btn btn-dark btn-block btn-sm m-1">New Project</a>
+          <a href="{% url 'projects:bulk_import' %}" class="btn btn-dark btn-block btn-sm m-1">Import from Excel File</a>
           <a href="{% url 'homepage' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
         </div>
       </div>
