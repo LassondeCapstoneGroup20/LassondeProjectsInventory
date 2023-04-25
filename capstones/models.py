@@ -22,7 +22,6 @@ class Capstone(models.Model):
         return ", ".join([ta.name for ta in self.teaching_assistants.all()])
     
 class Award(models.Model):
-    #capstone = models.ForeignKey(Capstone, on_delete = models.CASCADE)
     capstone = models.IntegerField(default=date.today().year-1)
     title = models.CharField(max_length = 120)
     project = models.ForeignKey('projects.Project', on_delete = models.SET_NULL, null=True, default=None)

@@ -3,7 +3,6 @@ from datetime import date
 from django import forms
 
 from .models import Capstone, Faculty, Award
-from projects.models import Project
 
 class DateInput(forms.DateInput):
     input_type = 'date'
