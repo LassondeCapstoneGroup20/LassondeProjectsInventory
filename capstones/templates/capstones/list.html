@@ -27,9 +27,7 @@
                 <th>TAs</th>
                 <th>Capstone Day Date</th>
                 <th>Location</th>
-                <th>Judges</th>
-                <th>Teaching Notes</th>
-                <th>Other Notes</th>
+                <th colspan="3"> </th>
               </tr>
             </thead>
             <tbody>
@@ -40,9 +38,7 @@
                 <td>{% firstof c.get_ta_list|linebreaks 'None' %}</td>
                 <td>{% firstof c.capstone_day 'No date set' %}</td>
                 <td>{{c.capstone_day_location}}</td>
-                <td>{{c.capstone_day_judges}}</td>
-                <td>{{c.teaching_notes}}</td>
-                <td>{{c.other_notes}}</td>
+                <td><a href="{% url 'capstones:details' c.starting_year %}">Details</a></td>
                 <td><a href="{% url 'capstones:edit' c.starting_year %}">Edit</a></td>
                 <td>
                   <form method="post" action="{% url 'capstones:delete' c.starting_year %}">

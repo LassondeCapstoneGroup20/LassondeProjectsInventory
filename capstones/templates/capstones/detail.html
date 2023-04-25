@@ -1,0 +1,98 @@
+<html>
+  <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid grey;
+      }
+    </style>
+  </head>
+  <body>
+    {% block content %}
+    <div class="container">
+      <div class="row my-5">
+        <div class="col-md-12">
+          <h1>{{capstone.starting_year}}'s Capstone</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Professors</th>
+                <th>TAs</th>
+                <th>Capstone Day Date</th>
+                <th>Location</th>
+                <th>Judges</th>
+                <th>Teaching Notes</th>
+                <th>Other Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{capstone.starting_year}}</td>
+                <td>{% firstof capstone.get_staff_list|linebreaks 'None' %}</td>
+                <td>{% firstof capstone.get_ta_list|linebreaks 'None' %}</td>
+                <td>{% firstof capstone.capstone_day 'No date set' %}</td>
+                <td>{{capstone.capstone_day_location}}</td>
+                <td>{{capstone.capstone_day_judges}}</td>
+                <td>{{capstone.teaching_notes}}</td>
+                <td>{{capstone.other_notes}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <h2>Projects undertaken this year</h2>
+          {% if projects %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Project ID</th>
+                  <th>Project Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for proj in projects %}
+                <tr>
+                  <td>{{proj.id}}</td>
+                  <td>{{proj.name}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No projects available</p>
+          {% endif%}
+          <h2>Awards given out this year</h2>
+          {% if awards %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Award Name</th>
+                  <th>Project Name</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for aw in awards %}
+                <tr>
+                  <td><a href="{% url 'capstones:edit_award' capstone.starting_year aw.id %}">{{aw.title}}</a></td>
+                  <td>{{aw.project}}</td>
+                  <td>{{aw.details}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No awards given</p>
+          {% endif%}
+          <a href="{% url 'capstones:add_award' capstone.starting_year %}" class="btn btn-dark btn-block btn-sm m-1">Add Award</a>
+          <p><a href="{% url 'capstones:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a></p>
+        </div>
+      </div>
+    </div>
+    {% endblock content %}
+  </body>
+</html>

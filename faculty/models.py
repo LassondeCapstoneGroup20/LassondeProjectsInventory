@@ -35,4 +35,4 @@ class Faculty(models.Model):
     notes = models.TextField(blank = True, default = None)
 
     def __str__(self):
-        return ("%s (%s)" %(self.name, self.role))
+        return ("%s (%s)" %(self.name, self.department))

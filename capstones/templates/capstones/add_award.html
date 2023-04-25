@@ -34,18 +34,24 @@
             {% endif %}
             
             {% if form.instance.pk is None %}
-              <h1>Add a new project</h1>
+              <h1>Add an award given out during Capstone</h1>
             {% else %}
-              <h1>Edit project</h1>
+              <h1>Edit an award given out during Capstone</h1>
             {% endif %}
-            
 
             <form method="post">
               {% csrf_token %} 
               {% bootstrap_form form %}
               <button type="submit" class="btn btn-primary btn-block btn-sm m-1">Save</button>
             </form>
-            <a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+            {% if form.instance.pk is not None %}
+                <form method="post" action="{% url 'capstones:delete_award' form.instance.capstone form.instance.id %}">
+                  {% csrf_token %}
+                  <input type="Submit" value="Delete" class="btn btn-danger btn-block btn-sm m-1 float-end"/>
+                </form>
+            {% endif %}
+
+            <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
           </div>
         </div>
       </div>

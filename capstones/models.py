@@ -5,7 +5,6 @@ from django.db import models
 from faculty.models import Faculty
 
 # Create your models here.
-
 class Capstone(models.Model):
     starting_year = models.IntegerField(default=date.today().year, primary_key = True)
     teaching_staff = models.ManyToManyField(Faculty, default = None, blank = True, related_name='staff_list')
@@ -21,3 +20,9 @@ class Capstone(models.Model):
         
     def get_ta_list(self):
         return ", ".join([ta.name for ta in self.teaching_assistants.all()])
+    
+class Award(models.Model):
+    capstone = models.IntegerField(default=date.today().year-1)
+    title = models.CharField(max_length = 120)
+    project = models.ForeignKey('projects.Project', on_delete = models.SET_NULL, null=True, default=None)
+    details = models.TextField(blank = True, default=None)
