@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from authentication.views import login_required, loginUser
 
 import pandas as pd
+from datetime import datetime
 
 @login_required(login_url=loginUser)
 def project_index_page(request):
@@ -97,6 +98,7 @@ def __save_form(form, redir):
 
 def __clean_df(df):
     df['Full Name'] = df['First Name'] + ' ' + df['Last Name']
+    agg_functions = {'Project Title': 'unique', 'Project Discipline': 'unique', 'Supervisor': 'unique', 'Year': 'unique', 'Full Name': 'unique'}
     del df['First Name']
     del df['Last Name']
     if 'Email Address' in df.columns:
@@ -104,22 +106,29 @@ def __clean_df(df):
     if 'Discipline' in df.columns:
         del df['Discipline']
     if 'Supervisor Email' in df.columns:
-        del df['Supervisor Email']   
+        del df['Supervisor Email']
+    if 'Date Proposed' in df.columns:
+        df['Date Proposed'] = df['Date Proposed'].dt.strftime('%Y-%m-%d')
+        agg_functions.update({'Date Proposed': 'unique'})
+    if 'Date Complete' in df.columns:
+        df['Date Complete'] = df['Date Complete'].dt.strftime('%Y-%m-%d')
+        agg_functions.update({'Date Complete': 'unique'})
     df = df.applymap(str)         
-    #df_combined = df.groupby(['Team'], as_index=False).agg(', '.join)
-    agg_functions = {'Project Title': 'unique', 'Project Discipline': 'unique', 'Supervisor': 'unique', 'Year': 'unique', 'Full Name': 'unique'}
+    
     return df.groupby(['Team'], as_index=False).agg(agg_functions)
 
 def __to_models(proj_list):
     projects = []
     for p in proj_list:
+        year = int(p['Year'][0])
         projects.append(Project(
             name = p['Project Title'][0],
-            capstone_year = int(p['Year'][0]),
+            capstone_year = year,
             type='COMP', #This needs to be set within excel file
             students = ', '.join(p['Full Name']),
             status='COMPL',
-            #Set default values for date proposed and completed
+            date_proposed = datetime.strptime(p.get('Date Proposed', [str(year)+'-1-1'])[0], '%Y-%m-%d'),
+            date_complete = datetime.strptime(p.get('Date Complete', [str(year+1)+'-4-30'])[0], '%Y-%m-%d'),
             #Todo: set the discipline
     ))
     return projects
