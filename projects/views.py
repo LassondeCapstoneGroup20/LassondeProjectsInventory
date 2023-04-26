@@ -98,9 +98,9 @@ def __save_form(form, redir):
 
 def __clean_df(df):
     df['Full Name'] = df['First Name'] + ' ' + df['Last Name']
-    agg_functions = {'Project Title': 'unique', 'Project Discipline': 'unique', 'Supervisor': 'unique', 'Year': 'unique', 'Full Name': 'unique'}
     del df['First Name']
     del df['Last Name']
+    agg_functions = {'Project Title': 'unique', 'Project Discipline': 'unique', 'Supervisor': 'unique', 'Year': 'unique', 'Full Name': 'unique'}
     if 'Email Address' in df.columns:
         del df['Email Address']
     if 'Discipline' in df.columns:
@@ -113,6 +113,8 @@ def __clean_df(df):
     if 'Date Complete' in df.columns:
         df['Date Complete'] = df['Date Complete'].dt.strftime('%Y-%m-%d')
         agg_functions.update({'Date Complete': 'unique'})
+    if 'Type' in df.columns:
+        agg_functions.update({'Type': 'unique'})
     df = df.applymap(str)         
     
     return df.groupby(['Team'], as_index=False).agg(agg_functions)
@@ -124,13 +126,14 @@ def __to_models(proj_list):
         projects.append(Project(
             name = p['Project Title'][0],
             capstone_year = year,
-            type='COMP', #This needs to be set within excel file
+            type=p.get('Type', ['COMP'])[0],
             students = ', '.join(p['Full Name']),
             status='COMPL',
             date_proposed = datetime.strptime(p.get('Date Proposed', [str(year)+'-1-1'])[0], '%Y-%m-%d'),
             date_complete = datetime.strptime(p.get('Date Complete', [str(year+1)+'-4-30'])[0], '%Y-%m-%d'),
-            #Todo: set the discipline
-    ))
+            #Todo: set the discipline, project supervisor
+        )
+    )
     return projects
 
 # Create your views here.
