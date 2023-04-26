@@ -56,7 +56,7 @@ class Project(models.Model):
     date_proposed = models.DateField(default=date.today)
     status = models.CharField(max_length=30, choices=STATUS, default=STATUS[0][0])
     date_complete = models.DateField(default=None, blank = True, null = True)
-    industry_partners = models.ForeignKey('contacts.IndustryPartners', null = True, default=None, on_delete=models.SET_NULL)
+    industry_partners = models.ForeignKey('contacts.IndustryPartners', null = True, default=None, on_delete=models.CASCADE)
     cost = models.IntegerField(blank = True, null = True, default = 0)
     un_goals = models.ManyToManyField(UNGoals, default = None, blank = True)
     notes = models.TextField(blank = True, default=None)
@@ -69,3 +69,4 @@ class Project(models.Model):
 
     def get_partner_name(self):
         return self.industry_partners.name
+

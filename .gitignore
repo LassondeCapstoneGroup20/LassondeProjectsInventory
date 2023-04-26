@@ -3,8 +3,10 @@
 *.pyc
 lassondeDB/settings.py
 .idea/*
+.env/*
 contacts/migrations/0001_initial.py
 projects/migrations/0001_initial.py
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/LassondeProjectsInventory.iml
 .idea/LassondeProjectsInventory.iml
+env

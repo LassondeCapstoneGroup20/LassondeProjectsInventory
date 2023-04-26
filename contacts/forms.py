@@ -1,8 +1,7 @@
 from django import forms
 
-from .models import IndustryPartners, Industry_Partners_Projects
-from projects.models import EngDiscipline
-
+from .models import IndustryPartners
+from django.apps import apps
 
 class IndustryPartnersForm(forms.ModelForm):
     class Meta:
@@ -11,7 +10,7 @@ class IndustryPartnersForm(forms.ModelForm):
             "name",
             "address",
             "website",
-            "discipline"
+            "discipline",
             "phone_number",
             "type",
             "email",
@@ -21,8 +20,15 @@ class IndustryPartnersForm(forms.ModelForm):
             )
 
     discipline = forms.ModelMultipleChoiceField(
-        queryset=EngDiscipline.objects.all(),
+        queryset=apps.get_model("projects.EngDiscipline").objects.all(),
         widget=forms.CheckboxSelectMultiple,
         error_messages={'required': 'Please select at least 1 discipline'},
         required=False,
     )
+
+class DisciplineForm(forms.ModelForm):
+    class Meta:
+        model = apps.get_model("projects.EngDiscipline")
+        fields = (
+            "discipline",
+            )

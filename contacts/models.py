@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import date
 
-
 # Create your models here.
 class AccessLog(models.Model):
     last_accessed = models.DateTimeField(auto_now=True)
@@ -29,6 +28,7 @@ class IndustryPartners(models.Model):
     name = models.CharField(max_length=120)
     address = models.CharField(max_length=400)
     website = models.CharField(max_length=200)
+    discipline = models.ManyToManyField("projects.EngDiscipline")
     phone_number = models.CharField(max_length=17, blank=True)
     email = models.CharField(max_length=40, blank=True)
     type = models.CharField(max_length=30, choices=TYPES)
