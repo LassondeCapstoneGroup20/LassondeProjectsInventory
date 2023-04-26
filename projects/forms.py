@@ -5,7 +5,7 @@ from django import forms
 from .models import EngDiscipline, Project, UNGoals
 from faculty.models import Faculty
 from contacts.models import IndustryPartners
-    
+
 class DateInput(forms.DateInput):
     input_type = 'date'
 

@@ -2,6 +2,7 @@
 *.pot
 *.pyc
 .idea/*
+*migrations*
 contacts/migrations/0001_initial.py
 projects/migrations/0001_initial.py
 .idea/inspectionProfiles/profiles_settings.xml
@@ -9,3 +10,4 @@ projects/migrations/0001_initial.py
 .idea/LassondeProjectsInventory.iml
 .env
 env
+

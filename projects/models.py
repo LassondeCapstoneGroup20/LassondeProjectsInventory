@@ -68,7 +68,7 @@ class Project(models.Model):
     file_capstone = models.FileField(default=None, blank=True, upload_to='projects/static/upload/')
     file_mini_capstone = models.FileField(default=None, blank=True, upload_to='projects/static/upload/')
     file_project_trailer = models.FileField(default=None, blank=True, upload_to='projects/static/upload/')
-    
+
     def get_disciplines(self):
         return "\n".join([d.discipline for d in self.discipline.all()])
 
