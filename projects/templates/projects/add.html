@@ -40,7 +40,7 @@
             {% endif %}
             
 
-            <form method="post" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data">
               {% csrf_token %} 
               {% bootstrap_form form %}
               <button type="submit" class="btn btn-primary btn-block btn-sm m-1">Save</button>

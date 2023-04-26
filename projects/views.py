@@ -1,6 +1,9 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+import uuid
+import os
+import datetime
 
 from .forms import DisciplineForm, GoalForm, ProjectForm
 from .filters import ProjectFilter
@@ -34,25 +37,24 @@ def delete_project(request, proj_id):
     #return render(request, 'projects/delete.html', {'proj': proj})
 
 @login_required(login_url=loginUser)
-def add_edit_project(request, proj_id = None):
-    if proj_id:
-        proj = get_object_or_404(Project, id = proj_id)
-        form = ProjectForm(request.POST or None)
-    else:
-        form = ProjectForm(request.POST or None) #request.FILES #when ever i add request.FILES the form empty's out
-    if request.method == "POST":
+def add_project(request):
+    if request.method == "GET" or request.method == "POST":
+        form = ProjectForm(request.POST or None) 
         if form.is_valid():
-            if request.FILES:
-                if request.FILES['file_report']:
-                    upload_files(request.FILES['file_report'])
-                if request.FILES['file_capstone']:
-                    upload_files(request.FILES['file_capstone'])
-                if request.FILES['file_mini_capstone']:
-                    upload_files(request.FILES['file_mini_capstone'])
-                if request.FILES['file_project_trailer']:
-                    upload_files(request.FILES['file_project_trailer'])
+            form = ProjectForm(request.POST or None, request.FILES) 
             form.save()
-            return HttpResponseRedirect('/projects/list/')
+            return __save_form(form, '/projects/list/')
+    return render(request, 'projects/add.html', {'form': form})
+
+@login_required(login_url=loginUser)
+def edit_project(request, proj_id = None):
+    if request.method == "GET" or request.method == "POST":
+        proj = get_object_or_404(Project, id = proj_id)
+        form = ProjectForm(request.POST or None, instance=proj)
+        if form.is_valid():
+            form = ProjectForm(request.POST or None, request.FILES, instance=proj)
+            form.save()
+            return __save_form(form, '/projects/list/')
     return render(request, 'projects/add.html', {'form': form})
     
 @login_required(login_url=loginUser)
@@ -85,9 +87,22 @@ def __save_form(form, redir):
         form.save(commit=False)
         return redirect(redir)
     
-def upload_files(f):
-    with open('projects/static/upload' + f.name, 'wb+') as des:
+
+def generate_unique_file_name(f):
+    file_path= 'projects/static/upload/'
+    # Generate a timestamp with microsecond precision
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    # Append the timestamp to the file name and re-add the extension
+    new_file_name = f"{file_path}/{timestamp}-{f.name}"
+    return new_file_name
+
+def upload_files(f, oldfilename):
+    filename_old = "projects/static/upload/" + oldfilename
+    file_path_name = generate_unique_file_name(f)
+
+    if os.path.isfile(oldfilename):
+       os.remove(filename_old)
+
+    with open(file_path_name, 'wb+') as des:
         for c in f.chunks():
             des.write(c)
-
-# Create your views here.
