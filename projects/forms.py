@@ -26,7 +26,11 @@ class ProjectForm(forms.ModelForm):
             "cost",
             "un_goals",
             "tags",
-            "notes"
+            "notes",
+            "file_report",
+            "file_capstone",
+            "file_mini_capstone",
+            "file_project_trailer",
             )
     date_proposed = forms.DateField(widget=DateInput, initial = date.today())
     date_complete = forms.DateField(widget=DateInput, required = False)
@@ -49,6 +53,12 @@ class ProjectForm(forms.ModelForm):
         required = False,
     )
     industry_partners = forms.ModelChoiceField(queryset = IndustryPartners.objects.all(), required = False)
+
+    file_report = forms.FileField(required=False)
+    file_capstone = forms.FileField(required=False)
+    file_mini_capstone = forms.FileField(required=False)
+    file_project_trailer = forms.FileField(required=False)
+
 
 class DisciplineForm(forms.ModelForm):
     class Meta:

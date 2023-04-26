@@ -37,11 +37,20 @@ def delete_project(request, proj_id):
 def add_edit_project(request, proj_id = None):
     if proj_id:
         proj = get_object_or_404(Project, id = proj_id)
-        form = ProjectForm(request.POST or None, instance = proj)
-    else:
         form = ProjectForm(request.POST or None)
+    else:
+        form = ProjectForm(request.POST or None) #request.FILES #when ever i add request.FILES the form empty's out
     if request.method == "POST":
         if form.is_valid():
+            if request.FILES:
+                if request.FILES['file_report']:
+                    upload_files(request.FILES['file_report'])
+                if request.FILES['file_capstone']:
+                    upload_files(request.FILES['file_capstone'])
+                if request.FILES['file_mini_capstone']:
+                    upload_files(request.FILES['file_mini_capstone'])
+                if request.FILES['file_project_trailer']:
+                    upload_files(request.FILES['file_project_trailer'])
             form.save()
             return HttpResponseRedirect('/projects/list/')
     return render(request, 'projects/add.html', {'form': form})
@@ -73,7 +82,12 @@ def add_goal(request):
 def __save_form(form, redir):
     if form.is_valid():
         print("Success")
-        form.save()
+        form.save(commit=False)
         return redirect(redir)
+    
+def upload_files(f):
+    with open('projects/static/upload' + f.name, 'wb+') as des:
+        for c in f.chunks():
+            des.write(c)
 
 # Create your views here.
