@@ -13,47 +13,55 @@
     </style>
   </head>
   <body>
-    <h1>Engineering Disciplines</h1>
-    {% if disciplines %}
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Discipline Name</th>
-      </tr>
-      {% for d in disciplines %}
-      <tr>
-        <td>{{d.id}}</td>
-        <td>{{d.discipline}}</td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-    <p>No disciplines available.</p>
-    {% endif %}
-    <a href="{% url 'projects:add_discipline' %}" class="btn btn-dark btn-block btn-sm m-1">Add Discipline</a>
+    {% block content %}
+      <div class="container">
+        <div class="row my-5">
+          <div class="col-md-12">
+            <h1>Engineering Disciplines</h1>
+            {% if disciplines %}
+            <table>
+              <tr>
+                <th>ID</th>
+                <th>Discipline Name</th>
+              </tr>
+              {% for d in disciplines %}
+              <tr>
+                <td>{{d.id}}</td>
+                <td><a href="{% url 'projects:edit_discipline' d.id %}">{{d.discipline}}</a></td>
+              </tr>
+              {% endfor %}
+            </table>
+            {% else %}
+            <p>No disciplines available.</p>
+            {% endif %}
+            <a href="{% url 'projects:add_discipline' %}" class="btn btn-dark btn-block btn-sm m-1">Add Discipline</a>
 
-    <h1>UN Sustainable Development Goals</h1>
-    {% if goals %}
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Link</th>
-      </tr>
-      {% for g in goals %}
-      <tr>
-        <td>{{g.id}}</td>
-        <td>{{g.title}}</td>
-        <td>{{g.description}}</td>
-        <td><a href={{g.link}}>Link</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-    <p>No goals available.</p>
-    {% endif %}
-    <p><a href="{% url 'projects:add_goal' %}" class="btn btn-dark btn-block btn-sm m-1">Add Goal</a></p>
-    <p><a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back to Projects</a></p>
+            <h1>UN Sustainable Development Goals</h1>
+            {% if goals %}
+            <table>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Link</th>
+              </tr>
+              {% for g in goals %}
+              <tr>
+                <td>{{g.id}}</td>
+                <td><a href="{% url 'projects:edit_goal' g.id %}">{{g.title}}</a></td>
+                <td>{{g.description}}</td>
+                <td><a href={{g.link}}>Link</a></td>
+              </tr>
+              {% endfor %}
+            </table>
+            {% else %}
+            <p>No goals available.</p>
+            {% endif %}
+            <p><a href="{% url 'projects:add_goal' %}" class="btn btn-dark btn-block btn-sm m-1">Add Goal</a></p>
+            <p><a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back to Projects</a></p>
+            {% endblock %}
+          </div>
+        </div>
+      </div>
   </body>
 </html>

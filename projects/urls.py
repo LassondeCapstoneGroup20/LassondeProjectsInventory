@@ -14,4 +14,8 @@ urlpatterns = [
     path('settings/', views.settings, name = 'settings'),
     path('settings/add_discipline/',views.add_discipline, name = 'add_discipline'),
     path('setting/add_goal', views.add_goal, name='add_goal'),
+    path('settings/edit_discipline/<int:id>/', views.add_discipline, name='edit_discipline'),
+    path('settings/edit_goal/<int:id>/', views.add_goal, name='edit_goal'),
+    path('settings/delete_discipline/<int:id>', views.delete_discipline, name='delete_discipline'),
+    path('settings/delete_goal/<int:id>', views.delete_goal, name='delete_goal'),
 ]
