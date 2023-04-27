@@ -94,20 +94,44 @@ def settings(request):
     return render(request, 'projects/settings.html', context)
 
 @login_required(login_url=loginUser)
-def add_discipline(request):
+def add_discipline(request, id=None):
+    if id:
+        disc = get_object_or_404(EngDiscipline, id=id)
+        form = DisciplineForm(request.POST or None, instance=disc)
+    else:
+        form = DisciplineForm(request.POST or None)
     if request.method == "POST":
-        return __save_form(DisciplineForm(request.POST), 'projects:settings')
-    form = DisciplineForm()
-    return render(request, 'projects/add_settings.html', {'form': form})
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/projects/settings')
+    return render(request, 'projects/add_discipline.html', {'form': form})
 
 @login_required(login_url=loginUser)
-def add_goal(request):
-    #return HttpResponse('Add Goal')
+def delete_discipline(request, id):
+    disc = get_object_or_404(EngDiscipline, id=id)
     if request.method == "POST":
-        return __save_form(GoalForm(request.POST), 'projects:settings')
-    form = GoalForm()
-    return render(request, 'projects/add_settings.html', {'form': form})
+        disc.delete()
+    return HttpResponseRedirect('/projects/settings')
 
+@login_required(login_url=loginUser)
+def add_goal(request, id=None):
+    if id:
+        goal = get_object_or_404(UNGoals, id=id)
+        form = GoalForm(request.POST or None, instance=goal)
+    else:
+        form = GoalForm(request.POST or None)
+    if request.method=="POST":
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/projects/settings')
+    return render(request, 'projects/add_sdg.html', {'form': form})
+
+@login_required(login_url=loginUser)
+def delete_goal(request, id):
+    goal = get_object_or_404(UNGoals, id=id)
+    if request.method == "POST":
+        goal.delete()
+    return HttpResponseRedirect('/projects/settings')
 
 '''Helper Methods'''
 def __save_form(form, redir):

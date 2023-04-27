@@ -1,0 +1,44 @@
+<html>
+  <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    {% block content %}
+      <div class="container">
+        <div class="row my-5">
+          <div class="col-md-12">
+            {% if form.instance.pk is None %}
+              <h1>Add a new engineering discipline</h1>
+            {% else %}
+              <h1>Edit an engineering discipline</h1>
+            {% endif %}
+            
+
+            <form method="post">
+              {% csrf_token %} {% bootstrap_form form %}
+
+              <button type="submit">Save</button>
+            </form>
+            {% if form.instance.pk is not None %}
+                <form method="post" action="{% url 'projects:delete_discipline' form.instance.id %}">
+                  {% csrf_token %}
+                  <input type="Submit" value="Delete" class="btn btn-danger btn-block btn-sm m-1 float-end"/>
+                </form>
+            {% endif %}
+            <a href="{% url 'projects:settings' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+          </div>
+        </div>
+      </div>
+      {% endblock %}
+  </body>
+</html>
