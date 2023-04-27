@@ -1,5 +1,6 @@
 <html>
-  <head>
+  {% extends "base.html" %}
+  {% block content %}
     <style>
       table,
       th,
@@ -7,15 +8,13 @@
         border: 1px solid black;
       }
     </style>
-  </head>
-  <body>
     <h1>Add a new engineering discipline or UN Development Goal</h1>
 
     <form method="post">
       {% csrf_token %} {{ form.as_p }}
 
-      <button type="submit">Save</button>
+      <button type="submit" class="btn btn-primary btn-block btn-sm m-1">Save</button>
     </form>
-    <a href="{% url 'projects:settings' %}">Back</a>
-  </body>
+    <a href="{% url 'projects:settings' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+    {% endblock content %}
 </html>

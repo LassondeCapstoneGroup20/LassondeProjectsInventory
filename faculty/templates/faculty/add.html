@@ -1,9 +1,7 @@
 <html>
-  <head>
+    {% extends "base.html" %}
     {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    {% bootstrap_messages %}
+    {% block content %}
     <style>
       table,
       th,
@@ -11,8 +9,6 @@
         border: 1px solid black;
       }
     </style>
-  </head>
-  <body>
     {% block content %}
       <div class="container">
         <div class="row my-5">
@@ -49,5 +45,4 @@
         </div>
       </div>
     {% endblock content %}
-  </body>
 </html>
