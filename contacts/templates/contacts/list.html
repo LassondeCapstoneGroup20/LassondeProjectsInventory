@@ -72,7 +72,9 @@
           <td>{{partner.type}}</td>
           <td>{{partner.date_joined}}</td>
           <td>{{partner.status}}</td>
+          <td><a href="{% url 'contacts:edit' partner.id %}">Edit</a></td>
         <td>
+
           <form method="post" action="{% url 'contacts:delete' partner.id %}">
             {% csrf_token %}
             <input type="Submit" value="Delete" class="btn btn-danger"/>

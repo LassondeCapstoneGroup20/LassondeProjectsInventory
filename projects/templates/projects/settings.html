@@ -48,6 +48,9 @@
     {% else %}
     <p>No goals available.</p>
     {% endif %}
+    <h1>Faculty Settings</h1>
+    <p><a href="{% url 'faculty:list' %}" class="btn btn-dark btn-block btn-sm m-1">Modify</a></p>
+
     <p><a href="{% url 'projects:add_goal' %}" class="btn btn-dark btn-block btn-sm m-1">Add Goal</a></p>
     <p><a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back to Projects</a></p>
     {% endblock content %}

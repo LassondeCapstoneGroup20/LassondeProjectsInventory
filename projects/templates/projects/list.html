@@ -7,6 +7,20 @@
       td {
         border: 1px solid grey;
       }
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+      }
+      
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+      
+      .container {
+        padding: 8px 16px;
+      }
+
     </style>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -42,41 +56,47 @@
           <h1>Project List</h1>
           <a href="{% url 'projects:settings' %}" class="btn btn-dark btn-block btn-sm m-1">Project Field Settings</a>
           <p></p>
+          <input class="btn btn-dark btn-block btn-sm m-1" type="button" name="Filter" value="Filter" onclick="showDiv()" />
+          <p></p>
           {#<div class="col-md-4">#}
             <form method="GET" action="{% url 'projects:list'%}">
               {% csrf_token %} 
               {#{% bootstrap_form filter_form %}#}
-              <div class="fieldWrapper">
-                {% for field in filter_form %}
-                    {{ field.errors }}
-                    {#{% bootstrap_field field %}#}
-                    {#{% if field.help_text %}#}
-                    {#  <p class="help">{{ field.help_text|safe }}</p> #}
-                    {#{% endif %}#}
-                {% endfor %}
-                <h5>Filter By</h5>
-                <div class = "form-group">
-                  
-                  <label>ID:</label> {{filter_form.id}}
-                  <label>Name:</label> {{filter_form.name}}
-                  
-                  <label>Cost(min-max):</label> {{filter_form.cost}}
-
-                </div>
-                <div class = "form-group">
-                  <label>Capstone Year:</label>{{filter_form.capstone_year}}
-
-                  <label>Type:</label>{{filter_form.type}}
-                  
-                  <label>Status:</label>{{filter_form.status}}
-                  
-                  <label>Tags:</label>{{filter_form.tags}}
-                </div>
-                <div class="form-group">
-                  <label class="align-top">Discipline:</label>{{filter_form.discipline}}
-                  <label class="align-top">Supervisor:</label>{{filter_form.supervisor}}
-                  <label class="align-top">SDG:</label>{{filter_form.un_goals}}
-                  <input type="submit" value = "Apply" class="btn btn-primary align-text-bottom"/>
+              <div class="card" id="filterBox"  style="display:none;">
+                <div class="container">
+                  <div class="fieldWrapper">
+                    {% for field in filter_form %}
+                        {{ field.errors }}
+                        {#{% bootstrap_field field %}#}
+                        {#{% if field.help_text %}#}
+                        {#  <p class="help">{{ field.help_text|safe }}</p> #}
+                        {#{% endif %}#}
+                    {% endfor %}
+                    <h5>Filter By</h5>
+                    <div class = "form-group">
+                      
+                      <label>ID:</label> {{filter_form.id}}
+                      <label>Name:</label> {{filter_form.name}}
+                      
+                      <label>Cost(min-max):</label> {{filter_form.cost}}
+    
+                    </div>
+                    <div class = "form-group">
+                      <label>Capstone Year:</label>{{filter_form.capstone_year}}
+    
+                      <label>Type:</label>{{filter_form.type}}
+                      
+                      <label>Status:</label>{{filter_form.status}}
+                      
+                      <label>Tags:</label>{{filter_form.tags}}
+                    </div>
+                    <div class="form-group">
+                      <label class="align-top">Discipline:</label>{{filter_form.discipline}}
+                      <label class="align-top">Supervisor:</label>{{filter_form.supervisor}}
+                      <label class="align-top">SDG:</label>{{filter_form.un_goals}}
+                      <input type="submit" value = "Apply" class="btn btn-primary align-text-bottom"/>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -114,7 +134,7 @@
                 <td><a href="{% url 'projects:detail' proj.id %}">Details</a></td>
                 <td><a href="{% url 'projects:edit' proj.id %}">Edit</a></td>
                 <td>
-                  <form method="post" action="{% url 'projects:delete' proj.id %}">
+                  <form method="POST" action="{% url 'projects:delete' proj.id %}">
                     {% csrf_token %}
                     <input type="Submit" value="Delete" class="btn btn-danger"/>
                   </form>
@@ -135,4 +155,13 @@
       </div>
     </div>
     {% endblock content %}
+  <script>
+    function showDiv() {
+     if (document.getElementById('filterBox').style.display === "block"){
+        document.getElementById('filterBox').style.display = "None";
+     } else {
+        document.getElementById('filterBox').style.display = "block";
+     }
+   }
+  </script>
 </html>
