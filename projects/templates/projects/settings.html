@@ -1,9 +1,6 @@
 <html>
-  <head>
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    {% bootstrap_messages %}
+    {% extends "base.html" %}
+    {% block content %}
     <style>
       table,
       th,
@@ -11,8 +8,6 @@
         border: 1px solid black;
       }
     </style>
-  </head>
-  <body>
     <h1>Engineering Disciplines</h1>
     {% if disciplines %}
     <table>
@@ -58,5 +53,5 @@
 
     <p><a href="{% url 'projects:add_goal' %}" class="btn btn-dark btn-block btn-sm m-1">Add Goal</a></p>
     <p><a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back to Projects</a></p>
-  </body>
+    {% endblock content %}
 </html>

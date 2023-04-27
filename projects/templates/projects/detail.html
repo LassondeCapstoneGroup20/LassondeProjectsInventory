@@ -1,5 +1,6 @@
 <html>
-  <head>
+  {% extends "base.html" %}
+  {% block content %}
     <style>
       table,
       th,
@@ -7,9 +8,9 @@
         border: 1px solid black;
       }
     </style>
-  </head>
+  
 </html>
-<body>
+
   <h1>Project Details</h1>
 
   <table>
@@ -53,5 +54,6 @@
       <td>{{proj.file_project_trailer}}</td>
     </tr>
   </table>
-</body>
-<a href="{% url 'projects:list' %}">Back</a>
+
+<a href="{% url 'projects:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
+{% endblock content %}
