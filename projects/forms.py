@@ -76,3 +76,6 @@ class GoalForm(forms.ModelForm):
             "description",
             "link",
         )
+
+class ProjectsImportForm(forms.Form):
+    file = forms.FileField()
