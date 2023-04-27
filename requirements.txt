@@ -1,0 +1,9 @@
+django
+django-bootstrap-v5
+django-environ
+django-filter
+mysqlclient
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
+oauth2client

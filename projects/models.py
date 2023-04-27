@@ -64,7 +64,11 @@ class Project(models.Model):
     un_goals = models.ManyToManyField(UNGoals, default = None, blank = True)
     tags = models.CharField(max_length = 120, blank = True)
     notes = models.TextField(blank = True)
-    
+    file_report = models.FileField(default=None,blank=True, upload_to='projects/static/upload/')
+    file_capstone = models.FileField(default=None, blank=True, upload_to='projects/static/upload/')
+    file_mini_capstone = models.FileField(default=None, blank=True, upload_to='projects/static/upload/')
+    file_project_trailer = models.FileField(default=None, blank=True, upload_to='projects/static/upload/')
+
     def get_disciplines(self):
         return "\n".join([d.discipline for d in self.discipline.all()])
 
