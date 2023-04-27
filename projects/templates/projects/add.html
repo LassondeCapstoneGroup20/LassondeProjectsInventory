@@ -1,9 +1,7 @@
 <html>
-  <head>
+    {% extends "base.html" %}
     {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    {% bootstrap_messages %}
+    {% block content %}
     <style>
       table,
       th,
@@ -11,9 +9,6 @@
         border: 1px solid black;
       }
     </style>
-  </head>
-  <body>
-    {% block content %}
       <div class="container">
         <div class="row my-5">
           <div class="col-md-12">
@@ -40,7 +35,7 @@
             {% endif %}
             
 
-            <form method="post">
+            <form method="POST" enctype="multipart/form-data">
               {% csrf_token %} 
               {% bootstrap_form form %}
               <button type="submit" class="btn btn-primary btn-block btn-sm m-1">Save</button>
@@ -50,5 +45,4 @@
         </div>
       </div>
     {% endblock content %}
-  </body>
 </html>

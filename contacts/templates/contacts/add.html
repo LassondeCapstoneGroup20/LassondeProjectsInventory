@@ -1,9 +1,7 @@
 <html>
-  <head>
-    {% load bootstrap5 %}
-    {# Load CSS and JavaScript #}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+  {% extends "base.html" %}
+  {% load bootstrap5 %}
+  {% block content %}
     <style>
       table,
       th,
@@ -11,9 +9,6 @@
         border: 1px solid black;
       }
     </style>
-  </head>
-
-  <body>
     <div class="container">
         <div class="row my-5">
           <div class="col-md-12">
@@ -23,11 +18,11 @@
               {% csrf_token %}
               {% bootstrap_form form %}
 
-              <button type="submit">Save</button>
+              <button type="submit" class="btn btn-primary btn-block btn-sm m-1">Save</button>
             </form>
-            <a href="{% url 'contacts:list' %}">Back</a>
+            <a href="{% url 'contacts:list' %}" class="btn btn-dark btn-block btn-sm m-1">Back</a>
           </div>
         </div>
     </div>
-  </body>
+    {% endblock content %}
 </html>
