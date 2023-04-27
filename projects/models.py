@@ -54,7 +54,7 @@ class Project(models.Model):
     discipline = models.ManyToManyField(EngDiscipline)
     type = models.CharField(max_length = 6, choices=TYPES)
     source = models.CharField(max_length = 30, null = True)
-    students = models.CharField(max_length = 120, blank = True, default=None)
+    students = models.CharField(max_length = 120, blank = True)
     supervisor = models.ManyToManyField('faculty.Faculty', blank = True, default = None)
     date_proposed = models.DateField(default=date.today)
     status = models.CharField(max_length=30, choices=STATUS, default=STATUS[0][0])
@@ -63,7 +63,7 @@ class Project(models.Model):
     cost = models.IntegerField(blank = True, null = True, default = 0)
     un_goals = models.ManyToManyField(UNGoals, default = None, blank = True)
     tags = models.CharField(max_length = 120, blank = True)
-    notes = models.TextField(blank = True, default=None)
+    notes = models.TextField(blank = True)
     
     def get_disciplines(self):
         return "\n".join([d.discipline for d in self.discipline.all()])

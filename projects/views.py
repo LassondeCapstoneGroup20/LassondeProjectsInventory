@@ -2,13 +2,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from .forms import DisciplineForm, GoalForm, ProjectForm
+from .forms import DisciplineForm, GoalForm, ProjectForm, ProjectsImportForm
 from .filters import ProjectFilter
 from .models import EngDiscipline, Project, UNGoals
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from authentication.views import login_required, loginUser
+
+import pandas as pd
+from datetime import datetime
 
 @login_required(login_url=loginUser)
 def project_index_page(request):
@@ -45,7 +48,24 @@ def add_edit_project(request, proj_id = None):
             form.save()
             return HttpResponseRedirect('/projects/list/')
     return render(request, 'projects/add.html', {'form': form})
-    
+
+@login_required(login_url=loginUser)
+def bulk_import(request):
+    if request.method == "POST":
+        form = ProjectsImportForm(request.POST, request.FILES)
+        ef = request.FILES["file"]
+        df = pd.read_excel(ef)
+        #df = df.reset_index()
+        df_cleaned = __clean_df(df).to_dict('records')
+        print(df_cleaned)
+        p = __to_models(df_cleaned)
+        #print(p)
+        Project.objects.bulk_create(p)
+        return HttpResponseRedirect('/projects/list/')
+    else:
+        form = ProjectsImportForm()
+    return render(request, 'projects/import.html', {'form': form})
+
 @login_required(login_url=loginUser)
 def settings(request):
     eng_disciplines = EngDiscipline.objects.order_by('id')[:15]
@@ -75,5 +95,45 @@ def __save_form(form, redir):
         print("Success")
         form.save()
         return redirect(redir)
+
+def __clean_df(df):
+    df['Full Name'] = df['First Name'] + ' ' + df['Last Name']
+    del df['First Name']
+    del df['Last Name']
+    agg_functions = {'Project Title': 'unique', 'Project Discipline': 'unique', 'Supervisor': 'unique', 'Year': 'unique', 'Full Name': 'unique'}
+    if 'Email Address' in df.columns:
+        del df['Email Address']
+    if 'Discipline' in df.columns:
+        del df['Discipline']
+    if 'Supervisor Email' in df.columns:
+        del df['Supervisor Email']
+    if 'Date Proposed' in df.columns:
+        df['Date Proposed'] = df['Date Proposed'].dt.strftime('%Y-%m-%d')
+        agg_functions.update({'Date Proposed': 'unique'})
+    if 'Date Complete' in df.columns:
+        df['Date Complete'] = df['Date Complete'].dt.strftime('%Y-%m-%d')
+        agg_functions.update({'Date Complete': 'unique'})
+    if 'Type' in df.columns:
+        agg_functions.update({'Type': 'unique'})
+    df = df.applymap(str)         
+    
+    return df.groupby(['Team'], as_index=False).agg(agg_functions)
+
+def __to_models(proj_list):
+    projects = []
+    for p in proj_list:
+        year = int(p['Year'][0])
+        projects.append(Project(
+            name = p['Project Title'][0],
+            capstone_year = year,
+            type=p.get('Type', ['COMP'])[0],
+            students = ', '.join(p['Full Name']),
+            status='COMPL',
+            date_proposed = datetime.strptime(p.get('Date Proposed', [str(year)+'-1-1'])[0], '%Y-%m-%d'),
+            date_complete = datetime.strptime(p.get('Date Complete', [str(year+1)+'-4-30'])[0], '%Y-%m-%d'),
+            #Todo: set the discipline, project supervisor
+        )
+    )
+    return projects
 
 # Create your views here.
